@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource path="res://scripts/player/player.gd" type="Script" id="1"]
 [ext_resource path="res://scenes/world/NPC.tscn" type="PackedScene" id="2"]
+[ext_resource path="res://scenes/dialogue/DialogueBox.tscn" type="PackedScene" id="3"]
 
 [sub_resource type="RectangleShape2D" id="PlayerShape"]
 size = Vector2(28, 32)
@@ -13,6 +14,8 @@ size = Vector2(1200, 40)
 size = Vector2(220, 70)
 
 [node name="World" type="Node2D"]
+
+[node name="DialogueBox" parent="." instance=ExtResource("3")]
 
 [node name="Background" type="ColorRect" parent="."]
 offset_right = 1280.0
@@ -96,21 +99,25 @@ position = Vector2(350, 250)
 character_name = "Mary"
 dialogue = "Faith should give people purpose, structure, and hope."
 character_art_path = "res://assets/characters/mary.svg"
+portrait_path = "res://assets/characters/mary.svg"
 
 [node name="Aradia" parent="." instance=ExtResource("2")]
 position = Vector2(950, 250)
 character_name = "Aradia"
 dialogue = "The world changes when people stop accepting the limits placed on them."
 character_art_path = "res://assets/characters/aradia.svg"
+portrait_path = "res://assets/characters/aradia.svg"
 
 [node name="Valentin" parent="." instance=ExtResource("2")]
 position = Vector2(640, 560)
 character_name = "Valentin"
 dialogue = "Completion is not the end. It is proof that you chose to finish."
 character_art_path = "res://assets/characters/valentin.svg"
+portrait_path = "res://assets/characters/valentin.svg"
 
 [node name="Frederick" parent="." instance=ExtResource("2")]
 position = Vector2(930, 520)
 character_name = "Frederick"
 dialogue = "Everyone wants an answer. Few people ask what the question should be."
 character_art_path = "res://assets/characters/frederick.svg"
+portrait_path = "res://assets/characters/frederick.svg"
