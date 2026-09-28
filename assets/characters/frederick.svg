@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="260" viewBox="0 0 180 260">
+<rect width="180" height="260" fill="none"/>
+<!-- Frederick: elegant aristocratic strategist -->
+<path d="M90 35 C67 35 53 51 53 75 C53 98 68 111 90 111 C112 111 127 98 127 75 C127 51 113 35 90 35Z" fill="#d8b99e" stroke="#58463d" stroke-width="3"/>
+<path d="M52 69 C53 39 68 20 93 22 C118 24 130 43 127 70 C116 54 105 50 90 51 C75 51 63 58 52 69Z" fill="#2b2630"/>
+<path d="M68 79 Q78 72 86 79 M94 79 Q102 72 112 79" fill="none" stroke="#312a33" stroke-width="3"/>
+<circle cx="77" cy="82" r="2.5" fill="#211d24"/><circle cx="103" cy="82" r="2.5" fill="#211d24"/>
+<path d="M82 95 Q90 99 98 95" fill="none" stroke="#76564a" stroke-width="2"/>
+<path d="M53 111 L31 244 Q90 256 149 244 L127 111 Q109 124 90 124 Q71 124 53 111Z" fill="#282631" stroke="#9b8aa3" stroke-width="3"/>
+<path d="M66 116 L90 151 L114 116 L108 210 L90 230 L72 210Z" fill="#34313e"/>
+<path d="M75 135 L105 135" stroke="#b8a5bd" stroke-width="3"/>
+<path d="M75 141 L105 141" stroke="#b8a5bd" stroke-width="2"/>
+<path d="M47 132 L25 188 M133 132 L155 188" stroke="#282631" stroke-width="21" stroke-linecap="round"/>
+<path d="M24 190 L39 181 M156 190 L141 181" stroke="#b8a5bd" stroke-width="3"/>
+</svg>
