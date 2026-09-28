@@ -1,6 +1,7 @@
 [gd_scene load_steps=5 format=3]
 
 [ext_resource path="res://scripts/player/player.gd" type="Script" id="1"]
+[ext_resource path="res://scenes/world/NPC.tscn" type="PackedScene" id="2"]
 
 [sub_resource type="RectangleShape2D" id="PlayerShape"]
 size = Vector2(28, 32)
@@ -89,3 +90,22 @@ polygon = PackedVector2Array(-80, -25, 80, -25, 80, 25, -80, 25)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SouthObstacle"]
 shape = SubResource("ObstacleShape")
 scale = Vector2(0.73, 0.71)
+[node name="Mary" parent="." instance=ExtResource("2")]
+position = Vector2(350, 250)
+character_name = "Mary"
+dialogue = "Faith should give people purpose, structure, and hope."
+
+[node name="Aradia" parent="." instance=ExtResource("2")]
+position = Vector2(950, 250)
+character_name = "Aradia"
+dialogue = "The world changes when people stop accepting the limits placed on them."
+
+[node name="Valentin" parent="." instance=ExtResource("2")]
+position = Vector2(640, 560)
+character_name = "Valentin"
+dialogue = "Completion is not the end. It is proof that you chose to finish."
+
+[node name="Frederick" parent="." instance=ExtResource("2")]
+position = Vector2(930, 520)
+character_name = "Frederick"
+dialogue = "Everyone wants an answer. Few people ask what the question should be."
