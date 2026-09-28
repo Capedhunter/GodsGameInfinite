@@ -14,8 +14,9 @@ script = ExtResource("1")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("NPCShape")
 
-[node name="Visual" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(-15, -22, 15, -22, 19, 0, 15, 22, -15, 22, -19, 0)
+[node name="CharacterSprite" type="Sprite2D" parent="."]
+position = Vector2(0, -32)
+scale = Vector2(0.55, 0.55)
 
 [node name="InteractionArea" type="Area2D" parent="."]
 
