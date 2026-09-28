@@ -6,7 +6,7 @@ extends CharacterBody2D
 var player_in_range := false
 var dialogue_label: Label
 
- func _ready() -> void:
+func _ready() -> void:
     dialogue_label = Label.new()
     dialogue_label.visible = false
     dialogue_label.position = Vector2(-150, -95)
