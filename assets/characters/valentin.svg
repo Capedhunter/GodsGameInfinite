@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="260" viewBox="0 0 180 260">
+<rect width="180" height="260" fill="none"/>
+<!-- Valentin: athletic neutral triumph fighter -->
+<path d="M90 34 C67 34 54 50 54 73 C54 96 68 109 90 109 C112 109 126 96 126 73 C126 50 113 34 90 34Z" fill="#caa989" stroke="#6f5544" stroke-width="3"/>
+<path d="M54 67 C52 40 66 21 91 21 C116 21 130 40 126 69 C114 54 104 50 90 50 C75 50 64 57 54 67Z" fill="#141417"/>
+<path d="M69 77 Q78 71 86 77 M94 77 Q102 71 111 77" fill="none" stroke="#24242a" stroke-width="3"/>
+<circle cx="78" cy="80" r="3" fill="#17171b"/><circle cx="102" cy="80" r="3" fill="#17171b"/>
+<path d="M81 94 Q90 98 99 94" fill="none" stroke="#563e32" stroke-width="2"/>
+<path d="M55 109 L30 242 Q90 257 150 242 L125 109 Q110 121 90 121 Q70 121 55 109Z" fill="#55585c" stroke="#26272b" stroke-width="4"/>
+<path d="M65 115 L115 115 L109 203 L90 226 L71 203Z" fill="#34363a"/>
+<text x="90" y="164" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#bfc1c5">XXI</text>
+<path d="M48 128 L25 185 M132 128 L155 185" stroke="#55585c" stroke-width="22" stroke-linecap="round"/>
+<path d="M24 184 L39 194" stroke="#191a1d" stroke-width="9" stroke-linecap="round"/>
+<path d="M155 184 L140 194" stroke="#191a1d" stroke-width="9" stroke-linecap="round"/>
+<path d="M43 237 L34 254 M137 237 L146 254" stroke="#202125" stroke-width="15" stroke-linecap="round"/>
+</svg>
