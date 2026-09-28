@@ -90,22 +90,27 @@ polygon = PackedVector2Array(-80, -25, 80, -25, 80, 25, -80, 25)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SouthObstacle"]
 shape = SubResource("ObstacleShape")
 scale = Vector2(0.73, 0.71)
+
 [node name="Mary" parent="." instance=ExtResource("2")]
 position = Vector2(350, 250)
 character_name = "Mary"
 dialogue = "Faith should give people purpose, structure, and hope."
+character_art_path = "res://assets/characters/mary.svg"
 
 [node name="Aradia" parent="." instance=ExtResource("2")]
 position = Vector2(950, 250)
 character_name = "Aradia"
 dialogue = "The world changes when people stop accepting the limits placed on them."
+character_art_path = "res://assets/characters/aradia.svg"
 
 [node name="Valentin" parent="." instance=ExtResource("2")]
 position = Vector2(640, 560)
 character_name = "Valentin"
 dialogue = "Completion is not the end. It is proof that you chose to finish."
+character_art_path = "res://assets/characters/valentin.svg"
 
 [node name="Frederick" parent="." instance=ExtResource("2")]
 position = Vector2(930, 520)
 character_name = "Frederick"
 dialogue = "Everyone wants an answer. Few people ask what the question should be."
+character_art_path = "res://assets/characters/frederick.svg"
