@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-## Reusable RPG NPC with character art and portrait dialogue.
+## Reusable RPG NPC with animated character art and portrait dialogue.
 
 @export var character_name: String = "NPC"
 @export_multiline var dialogue: String = "Hello, traveler."
@@ -9,6 +9,8 @@ extends CharacterBody2D
 
 var player_in_range := false
 
+@onready var character_sprite: Sprite2D = $CharacterSprite
+
 func _ready() -> void:
     $InteractionArea.body_entered.connect(_on_body_entered)
     $InteractionArea.body_exited.connect(_on_body_exited)
@@ -16,7 +18,9 @@ func _ready() -> void:
     if character_art_path != "":
         var texture := load(character_art_path) as Texture2D
         if texture:
-            $CharacterSprite.texture = texture
+            character_sprite.texture = texture
+
+    character_sprite.set_moving(false)
 
 func _on_body_entered(body: Node2D) -> void:
     if body.name == "Player":
