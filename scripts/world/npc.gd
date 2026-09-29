@@ -9,7 +9,7 @@ extends CharacterBody2D
 
 var player_in_range := false
 
-@onready var character_sprite: Sprite2D = $CharacterSprite
+@onready var character_sprite = $CharacterSprite
 
 func _ready() -> void:
     $InteractionArea.body_entered.connect(_on_body_entered)
