@@ -1,8 +1,6 @@
 class_name BattleUnit
 extends Resource
 
-## Combatant data used by the first playable battle prototype.
-
 @export var unit_name: String = "Unit"
 @export var max_hp: int = 100
 @export var hp: int = 100
