@@ -1,8 +1,6 @@
 class_name BattleEnemy
 extends BattleUnit
 
-## Enemy definition for the first playable battle.
-
 @export var weakness: String = "fire"
 @export var enemy_description: String = "A mysterious training enemy."
 
