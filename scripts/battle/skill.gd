@@ -1,8 +1,6 @@
 class_name BattleSkill
 extends Resource
 
-## Simple skill definition for the first combat prototype.
-
 @export var skill_name: String = "Skill"
 @export var description: String = ""
 @export var sp_cost: int = 0
