@@ -5,6 +5,7 @@
 [ext_resource path="res://scenes/dialogue/DialogueBox.tscn" type="PackedScene" id="3"]
 [ext_resource path="res://assets/player/protagonist_sprite_sheet.svg" type="Texture2D" id="4"]
 [ext_resource path="res://scripts/player/player_animator.gd" type="Script" id="5"]
+[ext_resource path="res://scripts/world/battle_encounter.gd" type="Script" id="6"]
 
 [sub_resource type="RectangleShape2D" id="PlayerShape"]
 size = Vector2(28, 32)
@@ -14,6 +15,9 @@ size = Vector2(1200, 40)
 
 [sub_resource type="RectangleShape2D" id="ObstacleShape"]
 size = Vector2(220, 70)
+
+[sub_resource type="CircleShape2D" id="EncounterShape"]
+radius = 38.0
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
@@ -127,3 +131,23 @@ character_name = "Frederick"
 dialogue = "Everyone wants an answer. Few people ask what the question should be."
 character_art_path = "res://assets/characters/frederick_sprite_sheet.svg"
 portrait_path = "res://assets/characters/frederick.svg"
+
+
+[node name="BattleEncounter" type="Area2D" parent="."]
+position = Vector2(820, 500)
+script = ExtResource("6")
+
+[node name="Visual" type="Polygon2D" parent="BattleEncounter"]
+polygon = PackedVector2Array(-28, -28, 28, -28, 28, 28, -28, 28)
+
+[node name="Label" type="Label" parent="BattleEncounter"]
+offset_left = -58.0
+offset_top = -58.0
+offset_right = 58.0
+offset_bottom = -30.0
+text = "VOID ECHO"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BattleEncounter"]
+shape = SubResource("EncounterShape")
