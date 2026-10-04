@@ -6,6 +6,7 @@ extends Sprite2D
 
 @export var idle_fps: float = 2.0
 @export var walk_fps: float = 9.0
+@export var walk_bob_amount: float = 1.0
 
 var direction := Vector2.DOWN
 var is_moving := false
@@ -49,6 +50,11 @@ func _process(delta: float) -> void:
         _frame_timer = 0.0
         _frame_index = (_frame_index + 1) % 4
         _update_frame()
+
+    var bob := 0.0
+    if is_moving:
+        bob = sin(Time.get_ticks_msec() * 0.001 * walk_fps * PI) * walk_bob_amount
+    position.y = _base_position.y + bob
 
 func _update_frame() -> void:
     frame = _direction_row * 4 + _frame_index
