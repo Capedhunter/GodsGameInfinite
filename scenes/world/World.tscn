@@ -16,6 +16,7 @@ size = Vector2(1200, 40)
 size = Vector2(220, 70)
 
 [node name="World" type="Node2D"]
+y_sort_enabled = true
 
 [node name="DialogueBox" parent="." instance=ExtResource("3")]
 
