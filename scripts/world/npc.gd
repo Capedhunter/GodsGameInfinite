@@ -9,6 +9,8 @@ extends CharacterBody2D
 
 var player_in_range := false
 var player: Node2D
+var _prompt_time := 0.0
+var _prompt_base_scale := Vector2.ONE
 
 @onready var character_sprite = $CharacterSprite
 @onready var interaction_prompt: Label = $InteractionPrompt
@@ -23,6 +25,7 @@ func _ready() -> void:
             character_sprite.texture = texture
 
     character_sprite.set_moving(false)
+    _prompt_base_scale = interaction_prompt.scale
     interaction_prompt.visible = false
 
 func _on_body_entered(body: Node2D) -> void:
@@ -30,6 +33,7 @@ func _on_body_entered(body: Node2D) -> void:
         player_in_range = true
         player = body
         interaction_prompt.visible = true
+        _prompt_time = 0.0
         _face_player()
 
 func _on_body_exited(body: Node2D) -> void:
@@ -49,6 +53,14 @@ func _physics_process(_delta: float) -> void:
         var dialogue_ui := get_tree().get_first_node_in_group("dialogue_ui")
         if dialogue_ui:
             dialogue_ui.toggle_dialogue(character_name, dialogue, portrait_path)
+
+func _process(delta: float) -> void:
+    if not interaction_prompt.visible:
+        return
+
+    _prompt_time += delta
+    var pulse := 1.0 + sin(_prompt_time * 4.0) * 0.08
+    interaction_prompt.scale = _prompt_base_scale * pulse
 
 func _face_player() -> void:
     var to_player := player.global_position - global_position
