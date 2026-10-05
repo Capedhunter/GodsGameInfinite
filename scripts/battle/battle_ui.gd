@@ -2,14 +2,17 @@ extends Control
 
 var manager: BattleManager
 var log_label: Label
+var active_name_label: Label
 var hp_label: Label
 var sp_label: Label
-var enemy_hp_label: Label
 var turn_label: Label
 var turn_order_label: Label
-var enemy_list_label: Label
+var enemy_title_label: Label
+var enemy_buttons: Array[Button] = []
+var command_buttons: Array[Button] = []
 var skill_buttons: Array[Button] = []
-var action_buttons: Array[Button] = []
+var target_mode := false
+var pending_skill_index := -1
 var victory_panel: PanelContainer
 
 func _ready() -> void:
@@ -22,59 +25,103 @@ func _ready() -> void:
 func _build_ui() -> void:
     var title := Label.new()
     title.text = "BATTLE"
-    title.position = Vector2(60, 35)
-    title.add_theme_font_size_override("font_size", 34)
+    title.position = Vector2(50, 28)
+    title.add_theme_font_size_override("font_size", 32)
     add_child(title)
 
-    turn_label = _label(Vector2(60, 80), 20)
-    turn_order_label = _label(Vector2(60, 115), 18)
-    turn_order_label.size = Vector2(760, 90)
+    turn_label = _label(Vector2(50, 70), 18)
+    turn_order_label = _label(Vector2(50, 105), 17)
+    turn_order_label.size = Vector2(1050, 42)
     turn_order_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
-    var enemy_title := Label.new()
-    enemy_title.text = "ENEMIES"
-    enemy_title.position = Vector2(900, 90)
-    enemy_title.add_theme_font_size_override("font_size", 24)
-    add_child(enemy_title)
+    var active_panel := PanelContainer.new()
+    active_panel.position = Vector2(50, 175)
+    active_panel.size = Vector2(310, 170)
+    add_child(active_panel)
 
-    enemy_list_label = _label(Vector2(900, 130), 18)
-    enemy_list_label.size = Vector2(300, 170)
-    enemy_list_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+    var active_box := VBoxContainer.new()
+    active_box.add_theme_constant_override("separation", 8)
+    active_panel.add_child(active_box)
 
-    hp_label = _label(Vector2(60, 455), 20)
-    sp_label = _label(Vector2(60, 490), 20)
+    var active_header := Label.new()
+    active_header.text = "ACTIVE CHARACTER"
+    active_header.add_theme_font_size_override("font_size", 16)
+    active_box.add_child(active_header)
 
-    log_label = _label(Vector2(410, 405), 17)
-    log_label.size = Vector2(500, 120)
-    log_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+    active_name_label = Label.new()
+    active_name_label.add_theme_font_size_override("font_size", 25)
+    active_box.add_child(active_name_label)
 
-    var actions := HBoxContainer.new()
-    actions.position = Vector2(60, 575)
-    actions.add_theme_constant_override("separation", 6)
-    add_child(actions)
+    hp_label = Label.new()
+    hp_label.add_theme_font_size_override("font_size", 18)
+    active_box.add_child(hp_label)
 
-    _add_action(actions, "Attack", _on_attack)
-    _add_action(actions, "Guard", _on_guard)
+    sp_label = Label.new()
+    sp_label.add_theme_font_size_override("font_size", 18)
+    active_box.add_child(sp_label)
+
+    var command_panel := PanelContainer.new()
+    command_panel.position = Vector2(50, 365)
+    command_panel.size = Vector2(310, 250)
+    add_child(command_panel)
+
+    var command_box := VBoxContainer.new()
+    command_box.add_theme_constant_override("separation", 6)
+    command_panel.add_child(command_box)
+
+    var command_title := Label.new()
+    command_title.text = "COMMAND"
+    command_title.add_theme_font_size_override("font_size", 16)
+    command_box.add_child(command_title)
+
+    _add_command(command_box, "Attack", _on_attack)
     for i in 4:
         var button := Button.new()
-        button.custom_minimum_size = Vector2(125, 44)
+        button.custom_minimum_size = Vector2(280, 38)
         button.pressed.connect(_on_skill.bind(i))
-        actions.add_child(button)
+        command_box.add_child(button)
         skill_buttons.append(button)
 
-    _add_action(actions, "Skip", _on_skip)
+    _add_command(command_box, "Guard", _on_guard)
+    _add_command(command_box, "Skip", _on_skip)
+
+    var enemy_panel := PanelContainer.new()
+    enemy_panel.position = Vector2(405, 175)
+    enemy_panel.size = Vector2(650, 250)
+    add_child(enemy_panel)
+
+    var enemy_box := VBoxContainer.new()
+    enemy_box.add_theme_constant_override("separation", 8)
+    enemy_panel.add_child(enemy_box)
+
+    enemy_title_label = Label.new()
+    enemy_title_label.text = "CHOOSE TARGET"
+    enemy_title_label.add_theme_font_size_override("font_size", 22)
+    enemy_box.add_child(enemy_title_label)
+
+    for i in 3:
+        var button := Button.new()
+        button.custom_minimum_size = Vector2(600, 48)
+        button.pressed.connect(_on_target_selected.bind(i))
+        enemy_box.add_child(button)
+        enemy_buttons.append(button)
+
+    log_label = _label(Vector2(405, 455), 17)
+    log_label.size = Vector2(650, 145)
+    log_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
     victory_panel = PanelContainer.new()
-    victory_panel.position = Vector2(410, 240)
+    victory_panel.position = Vector2(405, 270)
     victory_panel.size = Vector2(420, 150)
     victory_panel.visible = false
     add_child(victory_panel)
-    var text := Label.new()
-    text.text = "VICTORY!\n\nPress Enter to return to the overworld."
-    text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-    text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-    text.add_theme_font_size_override("font_size", 24)
-    victory_panel.add_child(text)
+
+    var victory_text := Label.new()
+    victory_text.text = "VICTORY!\n\nPress Enter to return to the overworld."
+    victory_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+    victory_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+    victory_text.add_theme_font_size_override("font_size", 24)
+    victory_panel.add_child(victory_text)
 
 func _label(pos: Vector2, font_size: int) -> Label:
     var label := Label.new()
@@ -83,24 +130,54 @@ func _label(pos: Vector2, font_size: int) -> Label:
     add_child(label)
     return label
 
-func _add_action(parent: Container, text_value: String, callback: Callable) -> void:
+func _add_command(parent: Container, text_value: String, callback: Callable) -> void:
     var button := Button.new()
     button.text = text_value
-    button.custom_minimum_size = Vector2(100, 44)
+    button.custom_minimum_size = Vector2(280, 38)
     button.pressed.connect(callback)
     parent.add_child(button)
-    action_buttons.append(button)
+    command_buttons.append(button)
 
 func _on_attack() -> void:
-    _show_result(manager.player_attack())
-
-func _on_guard() -> void:
-    _show_result(manager.player_guard())
+    _enter_target_mode(-1)
 
 func _on_skill(index: int) -> void:
-    _show_result(manager.player_skill(index))
+    if manager.current_actor == null or index < 0 or index >= manager.skills.size():
+        return
+    var skill: BattleSkill = manager.skills[index]
+    if skill.heals or skill.restores_sp:
+        _show_result(manager.player_skill(index, 0))
+        return
+    _enter_target_mode(index)
+
+func _enter_target_mode(skill_index: int) -> void:
+    if not manager.waiting_for_player:
+        return
+    target_mode = true
+    pending_skill_index = skill_index
+    enemy_title_label.text = "CHOOSE TARGET"
+    _refresh()
+
+func _on_target_selected(index: int) -> void:
+    if not target_mode:
+        return
+    var result := ""
+    if pending_skill_index == -1:
+        result = manager.player_attack(index)
+    else:
+        result = manager.player_skill(pending_skill_index, index)
+    target_mode = false
+    pending_skill_index = -1
+    _show_result(result)
+
+func _on_guard() -> void:
+    target_mode = false
+    pending_skill_index = -1
+    _show_result(manager.player_guard())
 
 func _on_skip() -> void:
+    target_mode = false
+    pending_skill_index = -1
     _show_result(manager.player_skip())
 
 func _show_result(result: String) -> void:
@@ -109,47 +186,65 @@ func _show_result(result: String) -> void:
     _refresh()
 
 func _refresh() -> void:
-    if manager == null or manager.player == null:
+    if manager == null or manager.current_actor == null:
         return
 
-    hp_label.text = "PROTAGONIST  HP %d / %d" % [manager.player.hp, manager.player.max_hp]
-    sp_label.text = "SP %d / %d" % [manager.player.sp, manager.player.max_sp]
+    var actor: BattleUnit = manager.current_actor
+    active_name_label.text = actor.unit_name
+    hp_label.text = "HP  %d / %d" % [actor.hp, actor.max_hp]
+    sp_label.text = "SP  %d / %d" % [actor.sp, actor.max_sp]
+
     turn_label.text = "ROUND %d  •  TURN %d  •  %s" % [
         manager.round_number,
         manager.turn_number,
-        "YOUR ACTION" if manager.current_actor == manager.player else "WAIT"
+        "YOUR TURN" if manager.waiting_for_player else "ENEMY TURN"
     ]
 
     var order := manager.get_turn_order_names()
-    turn_order_label.text = "TURN ORDER: " + "  →  ".join(order)
+    turn_order_label.text = "TURN ORDER  →  " + "  →  ".join(order)
 
-    var enemy_text := ""
-    for foe in manager.enemies:
-        var state := "DEFEATED" if not foe.is_alive() else "HP %d / %d" % [foe.hp, foe.max_hp]
-        enemy_text += "%s  —  %s\n" % [foe.unit_name, state]
-    enemy_list_label.text = enemy_text
+    var can_act := manager.waiting_for_player and not manager.battle_over
+    for button in command_buttons:
+        button.disabled = not can_act
 
-    var can_act := manager.current_actor == manager.player and manager.waiting_for_player and not manager.battle_over
     for i in skill_buttons.size():
         if i >= manager.skills.size():
             continue
         var skill: BattleSkill = manager.skills[i]
-        skill_buttons[i].text = "%s [%d SP]" % [skill.skill_name, skill.sp_cost]
+        skill_buttons[i].text = "%s   [%d SP]" % [skill.skill_name, skill.sp_cost]
         skill_buttons[i].tooltip_text = skill.description
-        skill_buttons[i].disabled = not can_act or manager.player.sp < manager._get_effective_sp_cost(skill)
-    for button in action_buttons:
-        button.disabled = not can_act
+        skill_buttons[i].disabled = not can_act or actor.sp < manager._get_effective_sp_cost(skill, actor)
+
+    for i in enemy_buttons.size():
+        if i >= manager.enemies.size():
+            continue
+        var foe: BattleEnemy = manager.enemies[i]
+        if not foe.is_alive():
+            enemy_buttons[i].text = "%s   —   DEFEATED" % foe.unit_name
+            enemy_buttons[i].disabled = true
+        else:
+            enemy_buttons[i].text = "%s   —   HP %d / %d" % [foe.unit_name, foe.hp, foe.max_hp]
+            enemy_buttons[i].disabled = not can_act or not target_mode
+
+    enemy_title_label.text = "CHOOSE TARGET" if target_mode else "ENEMIES"
 
 func _on_battle_finished(victory: bool) -> void:
+    target_mode = false
     if victory:
         victory_panel.visible = true
-        for button in action_buttons:
+        for button in command_buttons:
             button.disabled = true
         for button in skill_buttons:
+            button.disabled = true
+        for button in enemy_buttons:
             button.disabled = true
     else:
         get_tree().change_scene_to_file("res://scenes/world/World.tscn")
 
 func _unhandled_input(event: InputEvent) -> void:
-    if event is InputEventKey and event.pressed and event.keycode == KEY_ENTER and victory_panel.visible:
+    if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE and target_mode:
+        target_mode = false
+        pending_skill_index = -1
+        _refresh()
+    elif event is InputEventKey and event.pressed and event.keycode == KEY_ENTER and victory_panel.visible:
         get_tree().change_scene_to_file("res://scenes/world/World.tscn")
