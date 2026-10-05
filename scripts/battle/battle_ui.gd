@@ -8,11 +8,13 @@ var sp_label: Label
 var turn_label: Label
 var turn_order_label: Label
 var enemy_title_label: Label
+var target_info_label: Label
 var enemy_buttons: Array[Button] = []
 var command_buttons: Array[Button] = []
 var skill_buttons: Array[Button] = []
 var target_mode := false
 var pending_skill_index := -1
+var selected_target_index := -1
 var victory_panel: PanelContainer
 
 func _ready() -> void:
@@ -87,7 +89,7 @@ func _build_ui() -> void:
 
     var enemy_panel := PanelContainer.new()
     enemy_panel.position = Vector2(405, 175)
-    enemy_panel.size = Vector2(650, 250)
+    enemy_panel.size = Vector2(650, 365)
     add_child(enemy_panel)
 
     var enemy_box := VBoxContainer.new()
@@ -95,7 +97,7 @@ func _build_ui() -> void:
     enemy_panel.add_child(enemy_box)
 
     enemy_title_label = Label.new()
-    enemy_title_label.text = "CHOOSE TARGET"
+    enemy_title_label.text = "ENEMIES"
     enemy_title_label.add_theme_font_size_override("font_size", 22)
     enemy_box.add_child(enemy_title_label)
 
@@ -103,11 +105,18 @@ func _build_ui() -> void:
         var button := Button.new()
         button.custom_minimum_size = Vector2(600, 48)
         button.pressed.connect(_on_target_selected.bind(i))
+        button.mouse_entered.connect(_on_target_hovered.bind(i))
+        button.focus_entered.connect(_on_target_hovered.bind(i))
         enemy_box.add_child(button)
         enemy_buttons.append(button)
 
-    log_label = _label(Vector2(405, 455), 17)
-    log_label.size = Vector2(650, 145)
+    target_info_label = Label.new()
+    target_info_label.custom_minimum_size = Vector2(600, 65)
+    target_info_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+    enemy_box.add_child(target_info_label)
+
+    log_label = _label(Vector2(405, 565), 17)
+    log_label.size = Vector2(650, 75)
     log_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
     victory_panel = PanelContainer.new()
@@ -155,12 +164,18 @@ func _enter_target_mode(skill_index: int) -> void:
         return
     target_mode = true
     pending_skill_index = skill_index
-    enemy_title_label.text = "CHOOSE TARGET"
+    selected_target_index = _first_target_index()
     _refresh()
+
+func _on_target_hovered(index: int) -> void:
+    if target_mode and index >= 0 and index < manager.enemies.size() and manager.enemies[index].is_alive():
+        selected_target_index = index
+        _refresh_target_visuals()
 
 func _on_target_selected(index: int) -> void:
     if not target_mode:
         return
+    selected_target_index = index
     var result := ""
     if pending_skill_index == -1:
         result = manager.player_attack(index)
@@ -168,22 +183,31 @@ func _on_target_selected(index: int) -> void:
         result = manager.player_skill(pending_skill_index, index)
     target_mode = false
     pending_skill_index = -1
+    selected_target_index = -1
     _show_result(result)
 
 func _on_guard() -> void:
     target_mode = false
     pending_skill_index = -1
+    selected_target_index = -1
     _show_result(manager.player_guard())
 
 func _on_skip() -> void:
     target_mode = false
     pending_skill_index = -1
+    selected_target_index = -1
     _show_result(manager.player_skip())
 
 func _show_result(result: String) -> void:
     if result != "":
         log_label.text = result
     _refresh()
+
+func _first_target_index() -> int:
+    for i in manager.enemies.size():
+        if manager.enemies[i].is_alive():
+            return i
+    return -1
 
 func _refresh() -> void:
     if manager == null or manager.current_actor == null:
@@ -223,10 +247,40 @@ func _refresh() -> void:
             enemy_buttons[i].text = "%s   —   DEFEATED" % foe.unit_name
             enemy_buttons[i].disabled = true
         else:
-            enemy_buttons[i].text = "%s   —   HP %d / %d" % [foe.unit_name, foe.hp, foe.max_hp]
+            var marker := "  ◀ TARGET" if target_mode and i == selected_target_index else ""
+            enemy_buttons[i].text = "%s   —   HP %d / %d%s" % [foe.unit_name, foe.hp, foe.max_hp, marker]
             enemy_buttons[i].disabled = not can_act or not target_mode
 
     enemy_title_label.text = "CHOOSE TARGET" if target_mode else "ENEMIES"
+    _refresh_target_visuals()
+
+func _refresh_target_visuals() -> void:
+    for i in enemy_buttons.size():
+        var button := enemy_buttons[i]
+        if target_mode and i == selected_target_index and not button.disabled:
+            button.modulate = Color(1.25, 1.15, 0.65, 1.0)
+            button.tooltip_text = "TARGET SELECTED — click to confirm"
+        else:
+            button.modulate = Color.WHITE
+            if i < manager.enemies.size():
+                button.tooltip_text = "Click to select this target."
+
+    if target_info_label == null:
+        return
+    if selected_target_index < 0 or selected_target_index >= manager.enemies.size():
+        target_info_label.text = "Select an enemy to view its information."
+        return
+
+    var target: BattleEnemy = manager.enemies[selected_target_index]
+    if not target.is_alive():
+        target_info_label.text = "This enemy has been defeated."
+        return
+
+    target_info_label.text = "TARGET  •  %s\nHP %d / %d   •   Click again to confirm" % [
+        target.unit_name,
+        target.hp,
+        target.max_hp
+    ]
 
 func _on_battle_finished(victory: bool) -> void:
     target_mode = false
@@ -245,6 +299,7 @@ func _unhandled_input(event: InputEvent) -> void:
     if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE and target_mode:
         target_mode = false
         pending_skill_index = -1
+        selected_target_index = -1
         _refresh()
     elif event is InputEventKey and event.pressed and event.keycode == KEY_ENTER and victory_panel.visible:
         get_tree().change_scene_to_file("res://scenes/world/World.tscn")
