@@ -202,7 +202,10 @@ func _next_actor() -> void:
 
     turn_number += 1
     waiting_for_player = current_actor in party
-    skills = current_actor.personal_skills if waiting_for_player else []
+    skills.clear()
+    if waiting_for_player:
+        for personal_skill in current_actor.personal_skills:
+            skills.append(personal_skill)
     battle_updated.emit()
 
 func _process_ai_turns() -> String:
