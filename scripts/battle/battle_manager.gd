@@ -298,8 +298,10 @@ func player_skill(index: int, target_index: int = 0) -> String:
             var scaling_stat := actor.magic
             if damage_type in ["physical", "ranged", "melee"]:
                 scaling_stat = actor.strength
+            var versatility_active := actor == player and damage_type in ["physical", "melee", "ranged"] and valentin_previous_attack_type != "" and valentin_previous_attack_type != damage_type
+            var versatility_multiplier := VALENTIN_VERSATILITY_BONUS if versatility_active else 1.0
             hit = target.take_typed_damage(
-                int(round(float(skill.power) * float(scaling_stat) / 10.0)),
+                int(round(float(skill.power) * float(scaling_stat) / 10.0 * versatility_multiplier)),
                 damage_type,
                 true
             )
