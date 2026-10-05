@@ -10,7 +10,7 @@ extends CharacterBody2D
 
 func _physics_process(delta: float) -> void:
     var dialogue_ui := get_tree().get_first_node_in_group("dialogue_ui")
-    var dialogue_open := dialogue_ui != null and dialogue_ui.is_open
+    var dialogue_open: bool = dialogue_ui != null and dialogue_ui.is_open
 
     var input_vector := Input.get_vector("move_left", "move_right", "move_up", "move_down")
     if dialogue_open:
