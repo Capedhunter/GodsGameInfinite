@@ -14,8 +14,8 @@ var player: BattleUnit
 var enemy: BattleEnemy
 var skills: Array[BattleSkill] = []
 var battle_over := false
-var turn_number := 1
-var round_number := 1
+var turn_number := 0
+var round_number := 0
 var turn_queue: Array[Dictionary] = []
 var current_actor: BattleUnit
 var waiting_for_player := false
@@ -29,8 +29,8 @@ func start_battle() -> void:
     skills.append(_make_skill("Mend", "Restore HP.", 5, 20, "none", true))
     skills.append(_make_skill("Focus", "Restore SP.", 0, 8, "none", false, true))
     battle_over = false
-    turn_number = 1
-    round_number = 1
+    turn_number = 0
+    round_number = 0
     turn_queue.clear()
     current_actor = null
     waiting_for_player = false
@@ -174,17 +174,20 @@ func _next_actor() -> void:
     waiting_for_player = current_actor == player
     battle_updated.emit()
 
-func _process_ai_turns() -> void:
+func _process_ai_turns() -> String:
     if battle_over:
-        return
+        return ""
 
+    var results: Array[String] = []
     _next_actor()
     while not battle_over and current_actor != null and current_actor != player:
         var result := _ai_take_turn(current_actor)
-        _log_result(result)
+        if result != "":
+            results.append(result)
         if battle_over:
-            return
+            return "\n".join(results)
         _next_actor()
+    return "\n".join(results)
 
 func _ai_take_turn(actor: BattleUnit) -> String:
     if actor in party:
@@ -312,9 +315,10 @@ func _finish_player_action(result: String) -> String:
         battle_updated.emit()
         return result
 
-    _next_actor()
-    _process_ai_turns()
+    var ai_results := _process_ai_turns()
     battle_updated.emit()
+    if ai_results != "":
+        return result + "\n" + ai_results
     return result
 
 func _check_battle_state() -> void:
@@ -367,6 +371,3 @@ func get_turn_order_names() -> Array[String]:
             names.append(unit.unit_name)
     return names
 
-func _log_result(_result: String) -> void:
-    # AI results are surfaced through the UI's next refresh rather than a separate log buffer.
-    pass
