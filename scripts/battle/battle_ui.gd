@@ -5,6 +5,7 @@ var log_label: Label
 var active_name_label: Label
 var hp_label: Label
 var sp_label: Label
+var versatility_label: Label
 var turn_label: Label
 var turn_order_label: Label
 var enemy_title_label: Label
@@ -61,6 +62,10 @@ func _build_ui() -> void:
     sp_label = Label.new()
     sp_label.add_theme_font_size_override("font_size", 18)
     active_box.add_child(sp_label)
+
+    versatility_label = Label.new()
+    versatility_label.add_theme_font_size_override("font_size", 17)
+    active_box.add_child(versatility_label)
 
     var command_panel := PanelContainer.new()
     command_panel.position = Vector2(50, 365)
@@ -217,6 +222,13 @@ func _refresh() -> void:
     active_name_label.text = actor.unit_name
     hp_label.text = "HP  %d / %d" % [actor.hp, actor.max_hp]
     sp_label.text = "SP  %d / %d" % [actor.sp, actor.max_sp]
+    if actor == manager.player:
+        if manager.valentin_previous_attack_type == "":
+            versatility_label.text = "VERSATILITY  •  Build a chain"
+        else:
+            versatility_label.text = "VERSATILITY  •  Ready after %s" % manager.valentin_previous_attack_type.capitalize()
+    else:
+        versatility_label.text = ""
 
     turn_label.text = "ROUND %d  •  TURN %d  •  %s" % [
         manager.round_number,
