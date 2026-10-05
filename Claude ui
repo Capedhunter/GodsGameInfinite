@@ -1,0 +1,402 @@
+diff --git a/assets/ui/game_theme.tres b/assets/ui/game_theme.tres
+new file mode 100644
+index 0000000..ea83953
+--- /dev/null
++++ b/assets/ui/game_theme.tres
+@@ -0,0 +1,183 @@
++[gd_resource type="Theme" load_steps=14 format=3]
++
++; Shared UI theme for God's Game: Infinite.
++; Palette taken from the dialogue box: deep violet panels, lilac borders, gold focus.
++
++[sub_resource type="StyleBoxFlat" id="panel"]
++bg_color = Color(0.035, 0.028, 0.055, 0.94)
++border_width_left = 2
++border_width_top = 2
++border_width_right = 2
++border_width_bottom = 2
++border_color = Color(0.45, 0.32, 0.65, 1)
++corner_radius_top_left = 10
++corner_radius_top_right = 10
++corner_radius_bottom_right = 10
++corner_radius_bottom_left = 10
++content_margin_left = 14.0
++content_margin_top = 12.0
++content_margin_right = 14.0
++content_margin_bottom = 12.0
++shadow_color = Color(0, 0, 0, 0.4)
++shadow_size = 6
++
++[sub_resource type="StyleBoxFlat" id="panel_active"]
++bg_color = Color(0.09, 0.06, 0.13, 0.97)
++border_width_left = 2
++border_width_top = 2
++border_width_right = 2
++border_width_bottom = 2
++border_color = Color(0.95, 0.8, 0.4, 1)
++corner_radius_top_left = 10
++corner_radius_top_right = 10
++corner_radius_bottom_right = 10
++corner_radius_bottom_left = 10
++content_margin_left = 10.0
++content_margin_top = 8.0
++content_margin_right = 10.0
++content_margin_bottom = 8.0
++shadow_color = Color(0.95, 0.8, 0.4, 0.25)
++shadow_size = 8
++
++[sub_resource type="StyleBoxFlat" id="btn_normal"]
++bg_color = Color(0.12, 0.09, 0.19, 1)
++border_width_left = 2
++border_width_top = 2
++border_width_right = 2
++border_width_bottom = 2
++border_color = Color(0.36, 0.26, 0.52, 1)
++corner_radius_top_left = 8
++corner_radius_top_right = 8
++corner_radius_bottom_right = 8
++corner_radius_bottom_left = 8
++content_margin_left = 12.0
++content_margin_top = 6.0
++content_margin_right = 12.0
++content_margin_bottom = 6.0
++
++[sub_resource type="StyleBoxFlat" id="btn_hover"]
++bg_color = Color(0.19, 0.13, 0.30, 1)
++border_width_left = 2
++border_width_top = 2
++border_width_right = 2
++border_width_bottom = 2
++border_color = Color(0.62, 0.45, 0.88, 1)
++corner_radius_top_left = 8
++corner_radius_top_right = 8
++corner_radius_bottom_right = 8
++corner_radius_bottom_left = 8
++content_margin_left = 12.0
++content_margin_top = 6.0
++content_margin_right = 12.0
++content_margin_bottom = 6.0
++
++[sub_resource type="StyleBoxFlat" id="btn_pressed"]
++bg_color = Color(0.28, 0.19, 0.44, 1)
++border_width_left = 2
++border_width_top = 2
++border_width_right = 2
++border_width_bottom = 2
++border_color = Color(0.95, 0.8, 0.4, 1)
++corner_radius_top_left = 8
++corner_radius_top_right = 8
++corner_radius_bottom_right = 8
++corner_radius_bottom_left = 8
++content_margin_left = 12.0
++content_margin_top = 6.0
++content_margin_right = 12.0
++content_margin_bottom = 6.0
++
++[sub_resource type="StyleBoxFlat" id="btn_disabled"]
++bg_color = Color(0.07, 0.06, 0.1, 0.9)
++border_width_left = 2
++border_width_top = 2
++border_width_right = 2
++border_width_bottom = 2
++border_color = Color(0.2, 0.17, 0.27, 1)
++corner_radius_top_left = 8
++corner_radius_top_right = 8
++corner_radius_bottom_right = 8
++corner_radius_bottom_left = 8
++content_margin_left = 12.0
++content_margin_top = 6.0
++content_margin_right = 12.0
++content_margin_bottom = 6.0
++
++[sub_resource type="StyleBoxFlat" id="btn_focus"]
++draw_center = false
++border_width_left = 2
++border_width_top = 2
++border_width_right = 2
++border_width_bottom = 2
++border_color = Color(0.95, 0.8, 0.4, 1)
++corner_radius_top_left = 8
++corner_radius_top_right = 8
++corner_radius_bottom_right = 8
++corner_radius_bottom_left = 8
++
++[sub_resource type="StyleBoxFlat" id="bar_bg"]
++bg_color = Color(0.06, 0.05, 0.09, 1)
++border_width_left = 1
++border_width_top = 1
++border_width_right = 1
++border_width_bottom = 1
++border_color = Color(0.25, 0.2, 0.35, 1)
++corner_radius_top_left = 4
++corner_radius_top_right = 4
++corner_radius_bottom_right = 4
++corner_radius_bottom_left = 4
++
++[sub_resource type="StyleBoxFlat" id="bar_hp"]
++bg_color = Color(0.82, 0.22, 0.32, 1)
++corner_radius_top_left = 4
++corner_radius_top_right = 4
++corner_radius_bottom_right = 4
++corner_radius_bottom_left = 4
++
++[sub_resource type="StyleBoxFlat" id="bar_sp"]
++bg_color = Color(0.3, 0.55, 0.95, 1)
++corner_radius_top_left = 4
++corner_radius_top_right = 4
++corner_radius_bottom_right = 4
++corner_radius_bottom_left = 4
++
++[sub_resource type="StyleBoxFlat" id="tooltip"]
++bg_color = Color(0.05, 0.04, 0.08, 0.97)
++border_width_left = 1
++border_width_top = 1
++border_width_right = 1
++border_width_bottom = 1
++border_color = Color(0.45, 0.32, 0.65, 1)
++corner_radius_top_left = 6
++corner_radius_top_right = 6
++corner_radius_bottom_right = 6
++corner_radius_bottom_left = 6
++content_margin_left = 8.0
++content_margin_top = 6.0
++content_margin_right = 8.0
++content_margin_bottom = 6.0
++
++[resource]
++default_font_size = 18
++Label/colors/font_color = Color(0.95, 0.94, 0.98, 1)
++Button/colors/font_color = Color(0.95, 0.94, 0.98, 1)
++Button/colors/font_hover_color = Color(1, 1, 1, 1)
++Button/colors/font_pressed_color = Color(0.95, 0.8, 0.4, 1)
++Button/colors/font_focus_color = Color(1, 0.9, 0.6, 1)
++Button/colors/font_disabled_color = Color(0.45, 0.42, 0.52, 1)
++Button/styles/normal = SubResource("btn_normal")
++Button/styles/hover = SubResource("btn_hover")
++Button/styles/pressed = SubResource("btn_pressed")
++Button/styles/disabled = SubResource("btn_disabled")
++Button/styles/focus = SubResource("btn_focus")
++PanelContainer/styles/panel = SubResource("panel")
++Panel/styles/panel = SubResource("panel")
++ProgressBar/styles/background = SubResource("bar_bg")
++ProgressBar/styles/fill = SubResource("bar_hp")
++TooltipPanel/styles/panel = SubResource("tooltip")
++ActiveCard/base_type = &"PanelContainer"
++ActiveCard/styles/panel = SubResource("panel_active")
++HPBar/base_type = &"ProgressBar"
++HPBar/styles/fill = SubResource("bar_hp")
++SPBar/base_type = &"ProgressBar"
++SPBar/styles/fill = SubResource("bar_sp")
+diff --git a/project.godot b/project.godot
+index d66025f..b2c3584 100644
+--- a/project.godot
++++ b/project.godot
+@@ -24,3 +24,7 @@ move_down={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":83),
+ move_left={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":65),Object(InputEventKey,"physical_keycode":4194319)]}
+ move_right={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":68),Object(InputEventKey,"physical_keycode":4194321)]}
+ interact={"deadzone":0.5,"events":[Object(InputEventKey,"physical_keycode":69)]}
++
++[gui]
++
++theme/custom="res://assets/ui/game_theme.tres"
+diff --git a/scenes/battle/Battle.tscn b/scenes/battle/Battle.tscn
+index 8f0aa4b..073df3f 100644
+--- a/scenes/battle/Battle.tscn
++++ b/scenes/battle/Battle.tscn
+@@ -1,14 +1,27 @@
+-[gd_scene load_steps=3 format=3]
++[gd_scene load_steps=4 format=3]
+ 
+ [ext_resource path="res://scripts/battle/battle_manager.gd" type="Script" id="1"]
+ [ext_resource path="res://scripts/battle/battle_ui.gd" type="Script" id="2"]
++[ext_resource path="res://scenes/ui/HUD.tscn" type="PackedScene" id="3"]
+ 
+ [node name="Battle" type="Node"]
++
++[node name="Backdrop" type="ColorRect" parent="."]
++layout_mode = 3
++anchors_preset = 15
++anchor_right = 1.0
++anchor_bottom = 1.0
++mouse_filter = 2
++color = Color(0.05, 0.04, 0.09, 1)
++
+ [node name="BattleManager" type="Node" parent="."]
+ script = ExtResource("1")
++
+ [node name="BattleUI" type="Control" parent="."]
+ layout_mode = 3
+ anchors_preset = 15
+ anchor_right = 1.0
+ anchor_bottom = 1.0
+ script = ExtResource("2")
++
++[node name="HUD" parent="." instance=ExtResource("3")]
+diff --git a/scenes/ui/HUD.tscn b/scenes/ui/HUD.tscn
+index 9345b7c..c8d4d63 100644
+--- a/scenes/ui/HUD.tscn
++++ b/scenes/ui/HUD.tscn
+@@ -1,3 +1,22 @@
+-[gd_scene format=3]
++[gd_scene load_steps=2 format=3]
++
++[ext_resource path="res://scripts/ui/hud.gd" type="Script" id="1"]
+ 
+ [node name="HUD" type="CanvasLayer"]
++script = ExtResource("1")
++
++[node name="Root" type="Control" parent="."]
++layout_mode = 3
++anchors_preset = 15
++anchor_right = 1.0
++anchor_bottom = 1.0
++mouse_filter = 2
++
++[node name="PartyList" type="VBoxContainer" parent="Root"]
++layout_mode = 0
++offset_left = 1075.0
++offset_top = 28.0
++offset_right = 1260.0
++offset_bottom = 520.0
++mouse_filter = 2
++theme_override_constants/separation = 8
+diff --git a/scenes/ui/UnitStatusCard.tscn b/scenes/ui/UnitStatusCard.tscn
+new file mode 100644
+index 0000000..4a42c59
+--- /dev/null
++++ b/scenes/ui/UnitStatusCard.tscn
+@@ -0,0 +1,51 @@
++[gd_scene load_steps=2 format=3]
++
++[ext_resource path="res://scripts/ui/unit_status_card.gd" type="Script" id="1"]
++
++[node name="UnitStatusCard" type="PanelContainer"]
++custom_minimum_size = Vector2(185, 0)
++mouse_filter = 2
++script = ExtResource("1")
++
++[node name="Margin" type="MarginContainer" parent="."]
++layout_mode = 2
++mouse_filter = 2
++theme_override_constants/margin_left = 0
++theme_override_constants/margin_top = 0
++theme_override_constants/margin_right = 0
++theme_override_constants/margin_bottom = 0
++
++[node name="VBox" type="VBoxContainer" parent="Margin"]
++layout_mode = 2
++mouse_filter = 2
++theme_override_constants/separation = 3
++
++[node name="NameLabel" type="Label" parent="Margin/VBox"]
++layout_mode = 2
++theme_override_colors/font_color = Color(0.82, 0.65, 1, 1)
++theme_override_font_sizes/font_size = 17
++text = "Name"
++
++[node name="HPBar" type="ProgressBar" parent="Margin/VBox"]
++custom_minimum_size = Vector2(0, 10)
++layout_mode = 2
++mouse_filter = 2
++theme_type_variation = &"HPBar"
++max_value = 100.0
++value = 100.0
++show_percentage = false
++
++[node name="SPBar" type="ProgressBar" parent="Margin/VBox"]
++custom_minimum_size = Vector2(0, 8)
++layout_mode = 2
++mouse_filter = 2
++theme_type_variation = &"SPBar"
++max_value = 100.0
++value = 100.0
++show_percentage = false
++
++[node name="StatsLabel" type="Label" parent="Margin/VBox"]
++layout_mode = 2
++theme_override_colors/font_color = Color(0.62, 0.59, 0.7, 1)
++theme_override_font_sizes/font_size = 12
++text = "HP 0/0   SP 0/0"
+diff --git a/scripts/ui/hud.gd b/scripts/ui/hud.gd
+new file mode 100644
+index 0000000..dfb24fc
+--- /dev/null
++++ b/scripts/ui/hud.gd
+@@ -0,0 +1,36 @@
++class_name PartyHUD
++extends CanvasLayer
++
++## Party panel shown on the right edge of the screen.
++## In a battle scene it finds the sibling BattleManager automatically.
++## Elsewhere, call set_party() with an Array of BattleUnit and refresh() as stats change.
++
++const CARD_SCENE := preload("res://scenes/ui/UnitStatusCard.tscn")
++
++@onready var party_list: VBoxContainer = $Root/PartyList
++
++var manager: BattleManager
++var cards: Array[UnitStatusCard] = []
++
++func _ready() -> void:
++    manager = get_parent().get_node_or_null("BattleManager") as BattleManager
++    if manager != null:
++        manager.battle_updated.connect(refresh)
++        # Deferred so the manager has finished building its party.
++        set_party.call_deferred(manager.party)
++
++func set_party(units: Array) -> void:
++    for card in cards:
++        card.queue_free()
++    cards.clear()
++    for unit in units:
++        var card := CARD_SCENE.instantiate() as UnitStatusCard
++        party_list.add_child(card)
++        card.bind(unit)
++        cards.append(card)
++    refresh()
++
++func refresh() -> void:
++    for card in cards:
++        card.refresh()
++        card.set_active(manager != null and card.unit == manager.current_actor)
+diff --git a/scripts/ui/unit_status_card.gd b/scripts/ui/unit_status_card.gd
+new file mode 100644
+index 0000000..804f775
+--- /dev/null
++++ b/scripts/ui/unit_status_card.gd
+@@ -0,0 +1,35 @@
++class_name UnitStatusCard
++extends PanelContainer
++
++## Compact party member card: name, HP bar, SP bar.
++## Call bind() once after adding to the tree, then refresh() whenever stats change.
++
++var unit: BattleUnit
++
++@onready var name_label: Label = $Margin/VBox/NameLabel
++@onready var hp_bar: ProgressBar = $Margin/VBox/HPBar
++@onready var sp_bar: ProgressBar = $Margin/VBox/SPBar
++@onready var stats_label: Label = $Margin/VBox/StatsLabel
++
++func bind(new_unit: BattleUnit) -> void:
++    unit = new_unit
++    refresh(false)
++
++func refresh(animate := true) -> void:
++    if unit == null or not is_node_ready():
++        return
++    name_label.text = unit.unit_name
++    hp_bar.max_value = unit.max_hp
++    sp_bar.max_value = unit.max_sp
++    if animate:
++        var tween := create_tween().set_parallel(true)
++        tween.tween_property(hp_bar, "value", unit.hp, 0.25)
++        tween.tween_property(sp_bar, "value", unit.sp, 0.25)
++    else:
++        hp_bar.value = unit.hp
++        sp_bar.value = unit.sp
++    stats_label.text = "HP %d/%d   SP %d/%d" % [unit.hp, unit.max_hp, unit.sp, unit.max_sp]
++    modulate = Color.WHITE if unit.is_alive() else Color(0.5, 0.45, 0.5, 1.0)
++
++func set_active(active: bool) -> void:
++    theme_type_variation = &"ActiveCard" if active else &""
