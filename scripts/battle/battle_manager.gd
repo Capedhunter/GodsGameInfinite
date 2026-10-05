@@ -100,7 +100,7 @@ func player_skill(index: int) -> String:
             player.hp = maxi(1, player.hp - hp_cost)
 
         var hit := enemy.take_typed_damage(
-            skill.power * player.magic / 10,
+            int(round(float(skill.power) * float(player.magic) / 10.0)),
             skill.damage_type,
             true
         )
