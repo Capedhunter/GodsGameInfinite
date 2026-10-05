@@ -226,7 +226,7 @@ func _refresh() -> void:
         if manager.valentin_previous_attack_type == "":
             versatility_label.text = "VERSATILITY  •  Build a chain"
         else:
-            versatility_label.text = "VERSATILITY  •  Ready after %s" % manager.valentin_previous_attack_type.capitalize()
+            versatility_label.text = "VERSATILITY  •  Switch from %s for +25%%" % manager.valentin_previous_attack_type.capitalize()
     else:
         versatility_label.text = ""
 
