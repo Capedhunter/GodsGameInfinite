@@ -7,7 +7,7 @@ signal battle_finished(victory: bool)
 const PARTY_SIZE := 3
 const MAX_ENEMIES := 3
 const DOUBLE_ACTION_RATIO := 1.35
-const VALENTIN_VERSATILITY_BONUS := 1.15
+const VALENTIN_VERSATILITY_BONUS := 1.25
 
 var party: Array[BattleUnit] = []
 var enemies: Array[BattleEnemy] = []
@@ -301,13 +301,16 @@ func player_skill(index: int, target_index: int = 0) -> String:
             var versatility_active := actor == player and damage_type in ["physical", "melee", "ranged"] and valentin_previous_attack_type != "" and valentin_previous_attack_type != damage_type
             var versatility_multiplier := VALENTIN_VERSATILITY_BONUS if versatility_active else 1.0
             hit = target.take_typed_damage(
-                int(round(float(skill.power) * float(scaling_stat) / 10.0 * versatility_multiplier)),
+                int(round(float(skill.power) * float(scaling_stat) / 10.0)),
                 damage_type,
-                true
+                true,
+                versatility_multiplier
             )
 
         var damage_value: int = hit.damage
         result = "%s used %s on %s for %d damage." % [actor.unit_name, skill.skill_name, target.unit_name, damage_value]
+        if actor == player and damage_type in ["physical", "melee", "ranged"] and valentin_previous_attack_type != "" and valentin_previous_attack_type != damage_type:
+            result += " VERSATILITY! %d → %d damage (+%d)." % [hit.normal_damage, damage_value, maxi(0, damage_value - hit.normal_damage)]
 
         if hit.affinity == CombatRules.Affinity.WEAK:
             result += " WEAK!"
@@ -321,7 +324,7 @@ func player_skill(index: int, target_index: int = 0) -> String:
             result += " CRITICAL!"
 
         if actor == player and damage_type in ["physical", "melee", "ranged"]:
-            result += _apply_valentin_versatility(damage_type)
+            _apply_valentin_versatility(damage_type)
 
         _check_battle_state()
 
@@ -333,7 +336,7 @@ func player_skill(index: int, target_index: int = 0) -> String:
 func _apply_valentin_versatility(damage_type: String) -> String:
     var result := ""
     if valentin_previous_attack_type != "" and valentin_previous_attack_type != damage_type:
-        result = " VERSATILITY! +15% damage."
+        result = " VERSATILITY READY."
     valentin_previous_attack_type = damage_type
     return result
 
