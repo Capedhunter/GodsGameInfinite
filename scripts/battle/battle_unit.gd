@@ -14,6 +14,7 @@ extends Resource
 @export var is_guarding: bool = false
 @export var affinities: AffinityProfile
 @export var combat_data: CharacterCombatData
+@export var personal_skills: Array[BattleSkill] = []
 
 func setup() -> void:
     hp = max_hp
