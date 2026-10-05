@@ -6,14 +6,33 @@ extends Resource
 @export var hp: int = 100
 @export var max_sp: int = 30
 @export var sp: int = 30
-@export var attack_power: int = 10
+@export var strength: int = 10
+@export var magic: int = 10
 @export var defense: int = 5
+@export var agility: int = 10
+@export var luck: int = 10
 @export var is_guarding: bool = false
+@export var affinities: AffinityProfile
+@export var combat_data: CharacterCombatData
 
 func setup() -> void:
     hp = max_hp
     sp = max_sp
     is_guarding = false
+    if affinities == null:
+        affinities = AffinityProfile.new()
+    if combat_data == null:
+        combat_data = CharacterCombatData.new()
+
+func get_affinity(damage_type: String) -> CombatRules.Affinity:
+    if affinities == null:
+        return CombatRules.Affinity.NEUTRAL
+    return affinities.get_affinity(damage_type)
+
+func get_proficiency(damage_type: String) -> int:
+    if combat_data == null:
+        return 2
+    return combat_data.get_proficiency(damage_type)
 
 func take_damage(amount: int) -> int:
     var final_damage := maxi(1, amount - defense)
@@ -22,6 +41,37 @@ func take_damage(amount: int) -> int:
         is_guarding = false
     hp = maxi(0, hp - final_damage)
     return final_damage
+
+func take_typed_damage(base_power: int, damage_type: String, can_crit := false) -> Dictionary:
+    var affinity := get_affinity(damage_type)
+    var critical := can_crit and randf() < (0.05 + (float(luck) * 0.01))
+
+    # Null/Repel/Drain override criticals completely.
+    if affinity in [CombatRules.Affinity.NULL, CombatRules.Affinity.REPEL, CombatRules.Affinity.DRAIN]:
+        return {"damage": 0, "affinity": affinity, "critical": false, "blocked": true}
+
+    var proficiency := get_proficiency(damage_type)
+    var proficiency_multiplier := 1.0 if damage_type == "judgment" else CombatRules.proficiency_modifier(proficiency)
+    var affinity_multiplier := 1.0 if critical else CombatRules.affinity_multiplier(affinity)
+
+    # Defense and affinity are deliberately combined rather than treated as two
+    # independent sequential reductions.
+    var raw_damage := float(base_power) * proficiency_multiplier * affinity_multiplier
+    var defense_factor := 100.0 / (100.0 + maxf(0.0, float(defense)))
+    var final_damage := maxi(1, int(round(raw_damage * defense_factor)))
+
+    if is_guarding:
+        final_damage = maxi(1, int(ceil(final_damage * 0.5)))
+        is_guarding = false
+
+    hp = maxi(0, hp - final_damage)
+    return {
+        "damage": final_damage,
+        "affinity": affinity,
+        "critical": critical,
+        "blocked": false,
+        "proficiency": proficiency
+    }
 
 func heal(amount: int) -> int:
     var old_hp := hp
