@@ -7,6 +7,7 @@ signal battle_finished(victory: bool)
 const PARTY_SIZE := 3
 const MAX_ENEMIES := 3
 const DOUBLE_ACTION_RATIO := 1.35
+const VALENTIN_VERSATILITY_BONUS := 1.15
 
 var party: Array[BattleUnit] = []
 var enemies: Array[BattleEnemy] = []
@@ -19,6 +20,7 @@ var round_number := 0
 var turn_queue: Array[Dictionary] = []
 var current_actor: BattleUnit
 var waiting_for_player := false
+var valentin_previous_attack_type := ""
 
 func start_battle() -> void:
     _build_party()
@@ -30,6 +32,7 @@ func start_battle() -> void:
     turn_queue.clear()
     current_actor = null
     waiting_for_player = false
+    valentin_previous_attack_type = ""
     _start_round()
     battle_updated.emit()
     _process_ai_turns()
@@ -315,12 +318,22 @@ func player_skill(index: int, target_index: int = 0) -> String:
         if hit.critical:
             result += " CRITICAL!"
 
+        if actor == player and damage_type in ["physical", "melee", "ranged"]:
+            result += _apply_valentin_versatility(damage_type)
+
         _check_battle_state()
 
     if battle_over:
         battle_updated.emit()
         return result
     return _finish_player_action(result)
+
+func _apply_valentin_versatility(damage_type: String) -> String:
+    var result := ""
+    if valentin_previous_attack_type != "" and valentin_previous_attack_type != damage_type:
+        result = " VERSATILITY! +15% damage."
+    valentin_previous_attack_type = damage_type
+    return result
 
 func player_guard() -> String:
     if not _can_current_actor_act():
