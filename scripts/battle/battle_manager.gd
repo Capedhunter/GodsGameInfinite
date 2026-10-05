@@ -4,7 +4,7 @@ extends Node
 signal battle_updated
 signal battle_finished(victory: bool)
 
-const PARTY_SIZE := 5
+const PARTY_SIZE := 3
 const MAX_ENEMIES := 3
 const DOUBLE_ACTION_RATIO := 1.35
 
