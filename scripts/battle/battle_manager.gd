@@ -24,10 +24,6 @@ func start_battle() -> void:
     _build_party()
     _build_enemies()
     skills.clear()
-    skills.append(_make_skill("Ember", "Fire damage. Strong against Void Echo.", 4, 18, "fire"))
-    skills.append(_make_skill("Arc", "Legacy prototype damage skill.", 5, 21, "none"))
-    skills.append(_make_skill("Mend", "Restore HP to the acting character.", 5, 20, "none", true))
-    skills.append(_make_skill("Focus", "Restore SP to the acting character.", 0, 8, "none", false, true))
     battle_over = false
     turn_number = 0
     round_number = 0
@@ -41,15 +37,40 @@ func start_battle() -> void:
 func _build_party() -> void:
     party.clear()
 
-    player = _make_party_member("Protagonist", 100, 30, 16, 10, 13, 12, 10)
-    player.combat_data.innate_proficiency["fire"] = 3
-    player.combat_data.innate_proficiency["physical"] = 2
-    party.append(player)
+    party.append(_make_valentin())
+    party.append(_make_mary())
+    party.append(_make_aradia())
+    player = party[0]
 
-    party.append(_make_party_member("Mary", 95, 38, 10, 16, 12, 9, 12))
-    party.append(_make_party_member("Aradia", 90, 42, 9, 17, 10, 14, 13))
-    party.append(_make_party_member("Valentin", 115, 28, 18, 10, 15, 11, 9))
-    party.append(_make_party_member("Frederick", 100, 34, 13, 13, 11, 13, 14))
+func _make_valentin() -> BattleUnit:
+    var member := _make_party_member("Valentin", 115, 28, 18, 10, 15, 11, 9)
+    member.personal_skills = [
+        _make_skill("Heavy Blow", "A powerful physical strike.", 0, 22, "physical", false, false, 0.04),
+        _make_skill("Cleaving Edge", "A strong melee attack.", 3, 26, "melee"),
+        _make_skill("Quick Shot", "A ranged attack.", 3, 20, "ranged"),
+        _make_skill("Second Wind", "Restore a small amount of HP.", 5, 18, "none", true)
+    ]
+    return member
+
+func _make_mary() -> BattleUnit:
+    var member := _make_party_member("Mary", 95, 38, 10, 16, 12, 9, 12)
+    member.personal_skills = [
+        _make_skill("Radiance", "Light damage.", 4, 20, "light"),
+        _make_skill("Sacred Flame", "Fire damage.", 4, 19, "fire"),
+        _make_skill("Mend", "Restore HP to the acting character.", 5, 20, "none", true),
+        _make_skill("Focus", "Restore SP to the acting character.", 5, 8, "none", false, true)
+    ]
+    return member
+
+func _make_aradia() -> BattleUnit:
+    var member := _make_party_member("Aradia", 90, 42, 9, 17, 10, 14, 13)
+    member.personal_skills = [
+        _make_skill("Frostbind", "Ice damage.", 4, 20, "ice"),
+        _make_skill("Umbral Hex", "Darkness damage.", 4, 20, "darkness"),
+        _make_skill("Static Curse", "Electric damage.", 5, 18, "electric"),
+        _make_skill("Gale Veil", "Wind damage.", 4, 18, "wind")
+    ]
+    return member
 
 func _make_party_member(member_name: String, hp: int, sp: int, strength: int, magic: int, defense: int, agility: int, luck: int) -> BattleUnit:
     var member := BattleUnit.new()
@@ -86,13 +107,14 @@ func _make_enemy(enemy_name: String, hp: int, strength: int, magic: int, defense
     unit.setup()
     return unit
 
-func _make_skill(skill_name: String, description: String, cost: int, power: int, damage_type: String, heals := false, restores_sp := false) -> BattleSkill:
+func _make_skill(skill_name: String, description: String, cost: int, power: int, damage_type: String, heals := false, restores_sp := false, hp_cost_percent := 0.0) -> BattleSkill:
     var skill := BattleSkill.new()
     skill.skill_name = skill_name
     skill.description = description
     skill.sp_cost = cost
     skill.power = power
     skill.damage_type = damage_type
+    skill.hp_cost_percent = hp_cost_percent
     skill.heals = heals
     skill.restores_sp = restores_sp
     return skill
@@ -169,6 +191,7 @@ func _next_actor() -> void:
 
     turn_number += 1
     waiting_for_player = current_actor in party
+    skills = current_actor.personal_skills if waiting_for_player else []
     battle_updated.emit()
 
 func _process_ai_turns() -> String:
@@ -225,11 +248,11 @@ func player_attack(target_index: int = 0) -> String:
     return _finish_player_action(result)
 
 func player_skill(index: int, target_index: int = 0) -> String:
-    if not _can_current_actor_act() or index < 0 or index >= skills.size():
+    if not _can_current_actor_act() or index < 0 or index >= current_actor.personal_skills.size():
         return ""
 
     var actor := current_actor
-    var skill := skills[index]
+    var skill: BattleSkill = actor.personal_skills[index]
     var effective_sp_cost := _get_effective_sp_cost(skill, actor)
     if not actor.spend_sp(effective_sp_cost):
         return "Not enough SP."
