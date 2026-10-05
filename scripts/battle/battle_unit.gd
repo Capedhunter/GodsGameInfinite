@@ -43,7 +43,7 @@ func take_damage(amount: int) -> int:
     hp = maxi(0, hp - final_damage)
     return final_damage
 
-func take_typed_damage(base_power: int, damage_type: String, can_crit := false) -> Dictionary:
+func take_typed_damage(base_power: int, damage_type: String, can_crit := false, damage_bonus_multiplier: float = 1.0) -> Dictionary:
     var affinity := get_affinity(damage_type)
     var critical := can_crit and randf() < (0.05 + (float(luck) * 0.01))
 
@@ -59,7 +59,8 @@ func take_typed_damage(base_power: int, damage_type: String, can_crit := false) 
     # independent sequential reductions.
     var raw_damage := float(base_power) * proficiency_multiplier * affinity_multiplier
     var defense_factor := 100.0 / (100.0 + maxf(0.0, float(defense)))
-    var final_damage := maxi(1, int(round(raw_damage * defense_factor)))
+    var normal_damage := maxi(1, int(round(raw_damage * defense_factor)))
+    var final_damage := maxi(1, int(round(raw_damage * damage_bonus_multiplier * defense_factor)))
 
     if is_guarding:
         final_damage = maxi(1, int(ceil(final_damage * 0.5)))
@@ -68,6 +69,7 @@ func take_typed_damage(base_power: int, damage_type: String, can_crit := false) 
     hp = maxi(0, hp - final_damage)
     return {
         "damage": final_damage,
+        "normal_damage": normal_damage,
         "affinity": affinity,
         "critical": critical,
         "blocked": false,
