@@ -44,6 +44,9 @@ func _build_party() -> void:
 
 func _make_valentin() -> BattleUnit:
     var member := _make_party_member("Valentin", 115, 28, 18, 10, 15, 11, 9)
+    member.combat_data.innate_proficiency["physical"] = 3
+    member.combat_data.innate_proficiency["melee"] = 3
+    member.combat_data.innate_proficiency["ranged"] = 2
     member.personal_skills = [
         _make_skill("Heavy Blow", "A powerful physical strike.", 0, 22, "physical", false, false, 0.04),
         _make_skill("Cleaving Edge", "A strong melee attack.", 3, 26, "melee"),
@@ -54,6 +57,10 @@ func _make_valentin() -> BattleUnit:
 
 func _make_mary() -> BattleUnit:
     var member := _make_party_member("Mary", 95, 38, 10, 16, 12, 9, 12)
+    member.combat_data.innate_proficiency["light"] = 3
+    member.combat_data.innate_proficiency["fire"] = 3
+    member.combat_data.innate_proficiency["water"] = 2
+    member.combat_data.innate_proficiency["earth"] = 2
     member.personal_skills = [
         _make_skill("Radiance", "Light damage.", 4, 20, "light"),
         _make_skill("Sacred Flame", "Fire damage.", 4, 19, "fire"),
@@ -64,6 +71,10 @@ func _make_mary() -> BattleUnit:
 
 func _make_aradia() -> BattleUnit:
     var member := _make_party_member("Aradia", 90, 42, 9, 17, 10, 14, 13)
+    member.combat_data.innate_proficiency["darkness"] = 3
+    member.combat_data.innate_proficiency["ice"] = 3
+    member.combat_data.innate_proficiency["electric"] = 2
+    member.combat_data.innate_proficiency["wind"] = 2
     member.personal_skills = [
         _make_skill("Frostbind", "Ice damage.", 4, 20, "ice"),
         _make_skill("Umbral Hex", "Darkness damage.", 4, 20, "darkness"),
@@ -278,8 +289,11 @@ func player_skill(index: int, target_index: int = 0) -> String:
             target.hp = maxi(0, target.hp - damage)
             hit = {"damage": damage, "affinity": CombatRules.Affinity.NEUTRAL, "critical": false}
         else:
+            var scaling_stat := actor.magic
+            if damage_type in ["physical", "ranged", "melee"]:
+                scaling_stat = actor.strength
             hit = target.take_typed_damage(
-                int(round(float(skill.power) * float(actor.magic) / 10.0)),
+                int(round(float(skill.power) * float(scaling_stat) / 10.0)),
                 damage_type,
                 true
             )
