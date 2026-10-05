@@ -15,9 +15,9 @@ func start_battle() -> void:
     player.unit_name = "Protagonist"
     player.max_hp = 100
     player.max_sp = 30
-    player.strength = 12
-    player.magic = 12
-    player.defense = 4
+    player.strength = 16
+    player.magic = 10
+    player.defense = 13
     player.agility = 12
     player.luck = 10
     player.combat_data = CharacterCombatData.new()
