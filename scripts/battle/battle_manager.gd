@@ -21,6 +21,7 @@ var turn_queue: Array[Dictionary] = []
 var current_actor: BattleUnit
 var waiting_for_player := false
 var valentin_previous_attack_type := ""
+var sponsor_collection: Array[SponsorData] = []
 
 func start_battle() -> void:
     _build_party()
@@ -33,6 +34,8 @@ func start_battle() -> void:
     current_actor = null
     waiting_for_player = false
     valentin_previous_attack_type = ""
+    _build_sponsor_collection()
+    _equip_initial_sponsors()
     _start_round()
     battle_updated.emit()
     _process_ai_turns()
@@ -50,6 +53,7 @@ func _make_valentin() -> BattleUnit:
     member.combat_data.innate_proficiency["physical"] = 3
     member.combat_data.innate_proficiency["melee"] = 3
     member.combat_data.innate_proficiency["ranged"] = 2
+    member.sponsor_compatibility_groups = ["warrior", "conqueror"]
     member.personal_skills = [
         _make_skill("Heavy Blow", "A powerful physical strike.", 0, 22, "physical", false, false, 0.04),
         _make_skill("Cleaving Edge", "A strong melee attack.", 3, 26, "melee"),
@@ -64,6 +68,7 @@ func _make_mary() -> BattleUnit:
     member.combat_data.innate_proficiency["fire"] = 3
     member.combat_data.innate_proficiency["water"] = 2
     member.combat_data.innate_proficiency["earth"] = 2
+    member.sponsor_compatibility_groups = ["saint", "guardian", "prophet"]
     member.personal_skills = [
         _make_skill("Radiance", "Light damage.", 4, 20, "light"),
         _make_skill("Sacred Flame", "Fire damage.", 4, 19, "fire"),
@@ -78,6 +83,7 @@ func _make_aradia() -> BattleUnit:
     member.combat_data.innate_proficiency["ice"] = 3
     member.combat_data.innate_proficiency["electric"] = 2
     member.combat_data.innate_proficiency["wind"] = 2
+    member.sponsor_compatibility_groups = ["witch", "occultist", "trickster"]
     member.personal_skills = [
         _make_skill("Frostbind", "Ice damage.", 4, 20, "ice"),
         _make_skill("Umbral Hex", "Darkness damage.", 4, 20, "darkness"),
@@ -99,6 +105,78 @@ func _make_party_member(member_name: String, hp: int, sp: int, strength: int, ma
     member.combat_data = CharacterCombatData.new()
     member.setup()
     return member
+
+func _build_sponsor_collection() -> void:
+    sponsor_collection.clear()
+    var heracles := load("res://data/sponsors/heracles.tres") as SponsorData
+    if heracles != null:
+        sponsor_collection.append(heracles)
+
+func _equip_initial_sponsors() -> void:
+    for member in party:
+        member.sponsor_slots.clear()
+        member.equipped_sponsor_index = -1
+        member.setup()
+
+    if sponsor_collection.is_empty():
+        return
+
+    var heracles: SponsorData = sponsor_collection[0]
+    if _assign_sponsor_to_character(heracles, party[0], 0):
+        party[0].equipped_sponsor_index = 0
+
+func _assign_sponsor_to_character(sponsor: SponsorData, character: BattleUnit, slot_index: int) -> bool:
+    if sponsor == null or character == null:
+        return false
+    if not character.can_equip_sponsor(sponsor):
+        return false
+
+    for member in party:
+        if member.has_sponsor(sponsor):
+            return false
+
+    return character.equip_sponsor_in_slot(slot_index, sponsor)
+
+func get_current_sponsor() -> SponsorData:
+    if current_actor == null:
+        return null
+    return current_actor.get_equipped_sponsor()
+
+func get_sponsor_slot_names() -> Array[String]:
+    var names: Array[String] = []
+    if current_actor == null:
+        return names
+    for sponsor in current_actor.sponsor_slots:
+        names.append("Empty" if sponsor == null else sponsor.sponsor_name)
+    return names
+
+func can_switch_sponsor() -> bool:
+    if not _can_current_actor_act():
+        return false
+    if current_actor.get_equipped_sponsor() == null:
+        return false
+    for i in current_actor.sponsor_slots.size():
+        if i != current_actor.equipped_sponsor_index and current_actor.sponsor_slots[i] != null:
+            return true
+    return false
+
+func switch_sponsor(slot_index: int) -> String:
+    if not _can_current_actor_act():
+        return ""
+    if slot_index < 0 or slot_index >= current_actor.sponsor_slots.size():
+        return ""
+    if slot_index == current_actor.equipped_sponsor_index:
+        return "%s is already equipped." % current_actor.sponsor_slots[slot_index].sponsor_name if current_actor.sponsor_slots[slot_index] != null else "No Sponsor is equipped in that slot."
+
+    var sponsor: SponsorData = current_actor.sponsor_slots[slot_index]
+    if sponsor == null:
+        return "That Sponsor slot is empty."
+
+    var previous := current_actor.get_equipped_sponsor()
+    current_actor.equipped_sponsor_index = slot_index
+    var previous_name := "None" if previous == null else previous.sponsor_name
+    var result := "%s switched Sponsors: %s → %s." % [current_actor.unit_name, previous_name, sponsor.sponsor_name]
+    return _finish_player_action(result)
 
 func _build_enemies() -> void:
     enemies.clear()
