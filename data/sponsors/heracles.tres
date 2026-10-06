@@ -1,0 +1,74 @@
+[gd_resource type="Resource" script_class="SponsorData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/sponsors/sponsor_data.gd" id="1_sponsor"]
+[ext_resource type="Script" path="res://scripts/battle/affinity_profile.gd" id="2_affinity"]
+[ext_resource type="Script" path="res://scripts/battle/skill.gd" id="3_skill"]
+
+[sub_resource type="Resource" id="AffinityProfile_heracles"]
+script = ExtResource("2_affinity")
+affinities = {
+"fire": 1,
+"wind": 1,
+"water": 1,
+"earth": 1,
+"electric": 1,
+"ice": 1,
+"light": 1,
+"darkness": 1,
+"physical": 2,
+"ranged": 1,
+"melee": 2,
+"judgment": 1
+}
+
+[sub_resource type="Resource" id="Skill_mighty_strike"]
+script = ExtResource("3_skill")
+skill_name = "Mighty Strike"
+description = "A heavy Physical attack that embodies overwhelming strength."
+sp_cost = 4
+power = 30
+damage_type = "physical"
+
+[sub_resource type="Resource" id="Skill_lions_hide"]
+script = ExtResource("3_skill")
+skill_name = "Lion's Hide"
+description = "A defensive stance inspired by the Nemean lion."
+sp_cost = 6
+power = 0
+damage_type = "none"
+
+[sub_resource type="Resource" id="Skill_heroic_blow"]
+script = ExtResource("3_skill")
+skill_name = "Heroic Blow"
+description = "A powerful Melee attack that demands commitment."
+sp_cost = 6
+hp_cost_percent = 6.0
+power = 38
+damage_type = "melee"
+
+[sub_resource type="Resource" id="Skill_labors_resolve"]
+script = ExtResource("3_skill")
+skill_name = "Labors' Resolve"
+description = "A technique representing endurance through impossible trials."
+sp_cost = 5
+power = 0
+damage_type = "none"
+
+[resource]
+script = ExtResource("1_sponsor")
+sponsor_name = "Heracles"
+mythological_source = "Greek mythology"
+manifestation_description = "A manifestation of humanity's enduring image of Heracles: strength, perseverance, and the will to overcome impossible trials."
+ideological_themes = ["strength", "perseverance", "overcoming trials", "heroism"]
+personality_description = "Direct, demanding, encouraging, and intensely focused on overcoming adversity. This is humanity's interpretation of Heracles, not the literal mythological figure."
+personality_traits = ["determined", "blunt", "protective", "competitive"]
+relationship_note = "Heracles respects Valentin's drive to finish what he begins and pushes him to treat obstacles as trials rather than excuses."
+compatibility_groups = ["warrior", "conqueror"]
+affinity_profile = SubResource("AffinityProfile_heracles")
+skills = [SubResource("Skill_mighty_strike"), SubResource("Skill_lions_hide"), SubResource("Skill_heroic_blow"), SubResource("Skill_labors_resolve")]
+passive_traits = ["Trial by Strength: intended to reward aggressive play and endurance."]
+max_active_skills = 8
+level = 1
+experience = 0
+passive_slots = 1
+evolution_description = "At maximum level, Heracles can evolve into a stronger manifestation representing humanity's increasingly transcendent image of the hero."
