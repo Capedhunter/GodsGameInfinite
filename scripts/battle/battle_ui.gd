@@ -6,6 +6,7 @@ var active_name_label: Label
 var hp_label: Label
 var sp_label: Label
 var versatility_label: Label
+var sponsor_label: Label
 var turn_label: Label
 var turn_order_label: Label
 var enemy_title_label: Label
@@ -67,6 +68,11 @@ func _build_ui() -> void:
     versatility_label.add_theme_font_size_override("font_size", 17)
     active_box.add_child(versatility_label)
 
+    sponsor_label = Label.new()
+    sponsor_label.add_theme_font_size_override("font_size", 16)
+    sponsor_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+    active_box.add_child(sponsor_label)
+
     var command_panel := PanelContainer.new()
     command_panel.position = Vector2(50, 365)
     command_panel.size = Vector2(310, 250)
@@ -89,6 +95,7 @@ func _build_ui() -> void:
         command_box.add_child(button)
         skill_buttons.append(button)
 
+    _add_command(command_box, "Sponsor Switch", _on_sponsor_switch)
     _add_command(command_box, "Guard", _on_guard)
     _add_command(command_box, "Skip", _on_skip)
 
@@ -191,6 +198,16 @@ func _on_target_selected(index: int) -> void:
     selected_target_index = -1
     _show_result(result)
 
+func _on_sponsor_switch() -> void:
+    if not manager.can_switch_sponsor():
+        return
+    var current_index := manager.current_actor.equipped_sponsor_index
+    for offset in manager.current_actor.sponsor_slots.size():
+        var index := (current_index + 1 + offset) % manager.current_actor.sponsor_slots.size()
+        if index != current_index and manager.current_actor.sponsor_slots[index] != null:
+            _show_result(manager.switch_sponsor(index))
+            return
+
 func _on_guard() -> void:
     target_mode = false
     pending_skill_index = -1
@@ -222,6 +239,11 @@ func _refresh() -> void:
     active_name_label.text = actor.unit_name
     hp_label.text = "HP  %d / %d" % [actor.hp, actor.max_hp]
     sp_label.text = "SP  %d / %d" % [actor.sp, actor.max_sp]
+    var equipped_sponsor := actor.get_equipped_sponsor()
+    var sponsor_name := "None" if equipped_sponsor == null else equipped_sponsor.sponsor_name
+    var sponsor_slots := manager.get_sponsor_slot_names()
+    sponsor_label.text = "SPONSOR  •  %s\nSLOTS  •  %s" % [sponsor_name, "  |  ".join(sponsor_slots)]
+
     if actor == manager.player:
         if manager.valentin_previous_attack_type == "":
             versatility_label.text = "VERSATILITY  •  Build a chain"
@@ -242,6 +264,8 @@ func _refresh() -> void:
     var can_act := manager.waiting_for_player and not manager.battle_over
     for button in command_buttons:
         button.disabled = not can_act
+    if command_buttons.size() > 1:
+        command_buttons[1].disabled = not manager.can_switch_sponsor()
 
     for i in skill_buttons.size():
         if i >= manager.skills.size():
