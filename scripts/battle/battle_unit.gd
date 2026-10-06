@@ -15,6 +15,11 @@ extends Resource
 @export var affinities: AffinityProfile
 @export var combat_data: CharacterCombatData
 @export var personal_skills: Array[BattleSkill] = []
+@export var sponsor_compatibility_groups: Array[String] = []
+@export var sponsor_slots: Array[SponsorData] = []
+@export var equipped_sponsor_index: int = -1
+
+const SPONSOR_SLOT_COUNT := 5
 
 func setup() -> void:
     hp = max_hp
@@ -24,6 +29,42 @@ func setup() -> void:
         affinities = AffinityProfile.new()
     if combat_data == null:
         combat_data = CharacterCombatData.new()
+    _ensure_sponsor_slots()
+
+func _ensure_sponsor_slots() -> void:
+    while sponsor_slots.size() < SPONSOR_SLOT_COUNT:
+        sponsor_slots.append(null)
+    if sponsor_slots.size() > SPONSOR_SLOT_COUNT:
+        sponsor_slots.resize(SPONSOR_SLOT_COUNT)
+    if equipped_sponsor_index >= sponsor_slots.size() or equipped_sponsor_index < -1:
+        equipped_sponsor_index = -1
+
+func get_equipped_sponsor() -> SponsorData:
+    if equipped_sponsor_index < 0 or equipped_sponsor_index >= sponsor_slots.size():
+        return null
+    return sponsor_slots[equipped_sponsor_index]
+
+func can_equip_sponsor(sponsor: SponsorData) -> bool:
+    if sponsor == null:
+        return false
+    for group in sponsor_compatibility_groups:
+        if sponsor.is_compatible_with_group(group):
+            return true
+    return false
+
+func has_sponsor(sponsor: SponsorData) -> bool:
+    return sponsor != null and sponsor in sponsor_slots
+
+func equip_sponsor_in_slot(slot_index: int, sponsor: SponsorData) -> bool:
+    if sponsor == null or slot_index < 0 or slot_index >= SPONSOR_SLOT_COUNT:
+        return false
+    if not can_equip_sponsor(sponsor):
+        return false
+    sponsor_slots[slot_index] = sponsor
+    if equipped_sponsor_index == -1:
+        equipped_sponsor_index = slot_index
+    return true
+
 
 func get_affinity(damage_type: String) -> CombatRules.Affinity:
     if affinities == null:
