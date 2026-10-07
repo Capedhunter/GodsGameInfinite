@@ -76,7 +76,7 @@ func _build_ui() -> void:
 
     var command_panel := PanelContainer.new()
     command_panel.position = Vector2(50, 365)
-    command_panel.size = Vector2(310, 330)
+    command_panel.size = Vector2(310, 440)
     add_child(command_panel)
 
     var command_box := VBoxContainer.new()
@@ -143,7 +143,7 @@ func _build_ui() -> void:
     target_info_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     enemy_box.add_child(target_info_label)
 
-    log_label = _label(Vector2(405, 565), 17)
+    log_label = _label(Vector2(405, 625), 17)
     log_label.size = Vector2(650, 75)
     log_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
