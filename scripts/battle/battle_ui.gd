@@ -115,6 +115,29 @@ func _build_ui() -> void:
     _add_command(command_box, "Guard", _on_guard)
     _add_command(command_box, "Skip", _on_skip)
 
+    var skill_mode_panel := PanelContainer.new()
+    skill_mode_panel.position = Vector2(405, 130)
+    skill_mode_panel.size = Vector2(650, 38)
+    add_child(skill_mode_panel)
+
+    var skill_mode_box := HBoxContainer.new()
+    skill_mode_box.add_theme_constant_override("separation", 8)
+    skill_mode_panel.add_child(skill_mode_box)
+
+    var top_personal_button := Button.new()
+    top_personal_button.text = "PERSONAL SKILLS"
+    top_personal_button.custom_minimum_size = Vector2(315, 32)
+    top_personal_button.pressed.connect(_on_personal_skills)
+    skill_mode_box.add_child(top_personal_button)
+    skill_mode_buttons.append(top_personal_button)
+
+    var top_sponsor_button := Button.new()
+    top_sponsor_button.text = "SPONSOR SKILLS"
+    top_sponsor_button.custom_minimum_size = Vector2(315, 32)
+    top_sponsor_button.pressed.connect(_on_sponsor_skills)
+    skill_mode_box.add_child(top_sponsor_button)
+    skill_mode_buttons.append(top_sponsor_button)
+
     var enemy_panel := PanelContainer.new()
     enemy_panel.position = Vector2(405, 175)
     enemy_panel.size = Vector2(650, 365)
