@@ -14,6 +14,7 @@ var target_info_label: Label
 var enemy_buttons: Array[Button] = []
 var command_buttons: Array[Button] = []
 var skill_buttons: Array[Button] = []
+var skill_mode_buttons: Array[Button] = []
 var target_mode := false
 var pending_skill_index := -1
 var selected_target_index := -1
@@ -75,7 +76,7 @@ func _build_ui() -> void:
 
     var command_panel := PanelContainer.new()
     command_panel.position = Vector2(50, 365)
-    command_panel.size = Vector2(310, 250)
+    command_panel.size = Vector2(310, 330)
     add_child(command_panel)
 
     var command_box := VBoxContainer.new()
@@ -88,6 +89,21 @@ func _build_ui() -> void:
     command_box.add_child(command_title)
 
     _add_command(command_box, "Attack", _on_attack)
+
+    var personal_button := Button.new()
+    personal_button.text = "Personal Skills"
+    personal_button.custom_minimum_size = Vector2(280, 34)
+    personal_button.pressed.connect(_on_personal_skills)
+    command_box.add_child(personal_button)
+    skill_mode_buttons.append(personal_button)
+
+    var sponsor_button := Button.new()
+    sponsor_button.text = "Sponsor Skills"
+    sponsor_button.custom_minimum_size = Vector2(280, 34)
+    sponsor_button.pressed.connect(_on_sponsor_skills)
+    command_box.add_child(sponsor_button)
+    skill_mode_buttons.append(sponsor_button)
+
     for i in 4:
         var button := Button.new()
         button.custom_minimum_size = Vector2(280, 38)
@@ -161,6 +177,12 @@ func _add_command(parent: Container, text_value: String, callback: Callable) -> 
 
 func _on_attack() -> void:
     _enter_target_mode(-1)
+
+func _on_personal_skills() -> void:
+    manager.set_sponsor_skill_mode(false)
+
+func _on_sponsor_skills() -> void:
+    manager.set_sponsor_skill_mode(true)
 
 func _on_skill(index: int) -> void:
     if manager.current_actor == null or index < 0 or index >= manager.skills.size():
@@ -264,6 +286,10 @@ func _refresh() -> void:
     var can_act := manager.waiting_for_player and not manager.battle_over
     for button in command_buttons:
         button.disabled = not can_act
+    for i in skill_mode_buttons.size():
+        var mode_button := skill_mode_buttons[i]
+        mode_button.disabled = not can_act or (i == 1 and actor.get_equipped_sponsor() == null)
+        mode_button.text = ("[ PERSONAL ]" if i == 0 and not manager.sponsor_skill_mode else "Personal Skills") if i == 0 else ("[ SPONSOR ]" if manager.sponsor_skill_mode else "Sponsor Skills")
     if command_buttons.size() > 1:
         command_buttons[1].disabled = not manager.can_switch_sponsor()
 
