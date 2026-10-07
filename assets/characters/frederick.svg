@@ -1,15 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="180" height="260" viewBox="0 0 180 260">
-<rect width="180" height="260" fill="none"/>
-<!-- Frederick: elegant aristocratic strategist -->
-<path d="M90 35 C67 35 53 51 53 75 C53 98 68 111 90 111 C112 111 127 98 127 75 C127 51 113 35 90 35Z" fill="#d8b99e" stroke="#58463d" stroke-width="3"/>
-<path d="M52 69 C53 39 68 20 93 22 C118 24 130 43 127 70 C116 54 105 50 90 51 C75 51 63 58 52 69Z" fill="#2b2630"/>
-<path d="M68 79 Q78 72 86 79 M94 79 Q102 72 112 79" fill="none" stroke="#312a33" stroke-width="3"/>
-<circle cx="77" cy="82" r="2.5" fill="#211d24"/><circle cx="103" cy="82" r="2.5" fill="#211d24"/>
-<path d="M82 95 Q90 99 98 95" fill="none" stroke="#76564a" stroke-width="2"/>
-<path d="M53 111 L31 244 Q90 256 149 244 L127 111 Q109 124 90 124 Q71 124 53 111Z" fill="#282631" stroke="#9b8aa3" stroke-width="3"/>
-<path d="M66 116 L90 151 L114 116 L108 210 L90 230 L72 210Z" fill="#34313e"/>
-<path d="M75 135 L105 135" stroke="#b8a5bd" stroke-width="3"/>
-<path d="M75 141 L105 141" stroke="#b8a5bd" stroke-width="2"/>
-<path d="M47 132 L25 188 M133 132 L155 188" stroke="#282631" stroke-width="21" stroke-linecap="round"/>
-<path d="M24 190 L39 181 M156 190 L141 181" stroke="#b8a5bd" stroke-width="3"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="260" viewBox="0 0 180 260"><defs>
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3d2bc"/><stop offset="1" stop-color="#c99179"/></linearGradient>
+    <linearGradient id="coat" x1="0" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#252833"/><stop offset="1" stop-color="#0c0d12"/></linearGradient>
+    <linearGradient id="white" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffdf7"/><stop offset="1" stop-color="#d9e0eb"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#332044"/><stop offset="1" stop-color="#100d19"/></linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a1b24"/><stop offset="1" stop-color="#111116"/></linearGradient>
+  </defs>
+  <rect width="180" height="260" fill="none"/>
+  <ellipse cx="90" cy="76" rx="37" ry="45" fill="#d6ae97" stroke="#674b46" stroke-width="2.5"/>
+  <path d="M51 69Q53 35 78 21Q111 14 130 45L127 72Q113 52 91 51Q70 51 51 69Z" fill="#5a555d"/>
+  <path d="M57 45Q72 24 96 23Q117 24 126 42L113 37L102 51L91 31L77 49L67 40Z" fill="#69636c"/>
+  <path d="M67 78Q77 71 85 78M95 78Q103 71 113 78" fill="none" stroke="#302c35" stroke-width="3"/>
+  <circle cx="77" cy="81" r="2.7" fill="#242129"/><circle cx="103" cy="81" r="2.7" fill="#242129"/>
+  <path d="M80 96Q90 100 100 96" fill="none" stroke="#775349" stroke-width="2.5"/>
+  <path d="M53 112L30 244Q90 258 150 244L127 112Q109 124 90 124Q71 124 53 112Z" fill="url(#red)" stroke="#8d6672" stroke-width="3"/>
+  <path d="M65 117L90 151L115 117L108 210L90 230L72 210Z" fill="#28232d"/>
+  <path d="M72 136H108M76 143H104" stroke="#b7a2ad" stroke-width="3"/>
+  <path d="M47 133L25 189M133 133L155 189" stroke="#28232d" stroke-width="21" stroke-linecap="round"/>
+  <path d="M25 190L40 181M155 190L140 181" stroke="#b7a2ad" stroke-width="3"/>
+  <path d="M139 155L157 132" stroke="#c8aab4" stroke-width="3"/>
+  </svg>
