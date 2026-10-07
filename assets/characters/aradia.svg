@@ -1,15 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="180" height="260" viewBox="0 0 180 260">
-<rect width="180" height="260" fill="none"/>
-<!-- Aradia: purple/black occult witch -->
-<path d="M90 36 C66 36 52 53 52 77 C52 99 67 113 90 113 C113 113 128 99 128 77 C128 53 114 36 90 36Z" fill="#eadcf5" stroke="#6f3b91" stroke-width="3"/>
-<path d="M50 75 C45 42 59 18 90 18 C121 18 137 43 130 75 L118 57 L104 67 L91 48 L75 67 L62 56Z" fill="#211b2c" stroke="#8a4db0" stroke-width="3"/>
-<path d="M69 81 Q78 73 86 81 M94 81 Q102 73 111 81" fill="none" stroke="#3a2349" stroke-width="3"/>
-<circle cx="77" cy="84" r="3" fill="#8f5bd0"/><circle cx="103" cy="84" r="3" fill="#8f5bd0"/>
-<path d="M81 96 Q90 102 99 96" fill="none" stroke="#774a86" stroke-width="2"/>
-<path d="M54 113 Q90 126 126 113 L158 245 Q90 258 22 245Z" fill="#191521" stroke="#713b8f" stroke-width="4"/>
-<path d="M64 121 L90 149 L116 121 L108 208 L90 229 L72 208Z" fill="#30213a"/>
-<path d="M90 137 L97 153 L114 157 L99 164 L96 181 L90 166 L74 162 L89 155Z" fill="#b26ad6"/>
-<path d="M42 139 L25 190 M138 139 L155 190" stroke="#211b2c" stroke-width="20" stroke-linecap="round"/>
-<path d="M153 195 L163 213" stroke="#b26ad6" stroke-width="4"/>
-<path d="M164 214 L151 208 M164 214 L157 224" stroke="#b26ad6" stroke-width="3"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="260" viewBox="0 0 180 260"><defs>
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3d2bc"/><stop offset="1" stop-color="#c99179"/></linearGradient>
+    <linearGradient id="coat" x1="0" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#252833"/><stop offset="1" stop-color="#0c0d12"/></linearGradient>
+    <linearGradient id="white" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffdf7"/><stop offset="1" stop-color="#d9e0eb"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#332044"/><stop offset="1" stop-color="#100d19"/></linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a1b24"/><stop offset="1" stop-color="#111116"/></linearGradient>
+  </defs>
+  <rect width="180" height="260" fill="none"/>
+  <ellipse cx="90" cy="77" rx="38" ry="47" fill="#e9d1c6" stroke="#72505c" stroke-width="2.5"/>
+  <path d="M48 77Q43 36 73 17L90 8L107 18Q137 37 132 77L119 59L105 67L91 45L76 68L61 57Z" fill="#17121f" stroke="#74429a" stroke-width="2.5"/>
+  <path d="M53 58Q63 29 88 21" fill="none" stroke="#3e284e" stroke-width="7"/>
+  <path d="M67 81Q77 73 85 81M95 81Q103 73 113 81" fill="none" stroke="#3d284b" stroke-width="3"/>
+  <circle cx="77" cy="84" r="3.2" fill="#a568df"/><circle cx="103" cy="84" r="3.2" fill="#a568df"/>
+  <path d="M80 98Q90 103 100 98" fill="none" stroke="#82516e" stroke-width="2.5"/>
+  <path d="M53 114Q90 128 127 114L157 245Q90 260 23 245Z" fill="url(#purple)" stroke="#713d91" stroke-width="3"/>
+  <path d="M64 119L90 151L116 119L108 208L90 231L72 208Z" fill="#211629"/>
+  <path d="M90 138L97 153L113 158L99 164L96 180L90 166L75 162L89 155Z" fill="#b46be0"/>
+  <path d="M42 138L25 191M138 138L155 191" stroke="#1b1523" stroke-width="20" stroke-linecap="round"/>
+  <path d="M155 193L166 212M166 212L153 207M166 212L159 222" fill="none" stroke="#b46be0" stroke-width="3"/>
+  <circle cx="90" cy="119" r="4" fill="#b46be0"/>
+  </svg>
