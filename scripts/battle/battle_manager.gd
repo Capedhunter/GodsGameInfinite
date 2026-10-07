@@ -22,6 +22,7 @@ var current_actor: BattleUnit
 var waiting_for_player := false
 var valentin_previous_attack_type := ""
 var sponsor_collection: Array[SponsorData] = []
+var sponsor_skill_mode := false
 
 func start_battle() -> void:
     _build_party()
@@ -34,6 +35,7 @@ func start_battle() -> void:
     current_actor = null
     waiting_for_player = false
     valentin_previous_attack_type = ""
+    sponsor_skill_mode = false
     _build_sponsor_collection()
     _equip_initial_sponsors()
     _start_round()
@@ -283,10 +285,34 @@ func _next_actor() -> void:
 
     turn_number += 1
     waiting_for_player = current_actor in party
+    sponsor_skill_mode = false
     skills.clear()
     if waiting_for_player:
+        _refresh_skill_list()
+    battle_updated.emit()
+
+func _refresh_skill_list() -> void:
+    skills.clear()
+    if current_actor == null:
+        return
+    if sponsor_skill_mode:
+        var sponsor := current_actor.get_equipped_sponsor()
+        if sponsor != null:
+            for sponsor_skill in sponsor.skills:
+                skills.append(sponsor_skill)
+    else:
         for personal_skill in current_actor.personal_skills:
             skills.append(personal_skill)
+
+func set_sponsor_skill_mode(enabled: bool) -> void:
+    if not waiting_for_player:
+        return
+    var sponsor := current_actor.get_equipped_sponsor()
+    if enabled and sponsor == null:
+        sponsor_skill_mode = false
+    else:
+        sponsor_skill_mode = enabled
+    _refresh_skill_list()
     battle_updated.emit()
 
 func _process_ai_turns() -> String:
@@ -343,11 +369,11 @@ func player_attack(target_index: int = 0) -> String:
     return _finish_player_action(result)
 
 func player_skill(index: int, target_index: int = 0) -> String:
-    if not _can_current_actor_act() or index < 0 or index >= current_actor.personal_skills.size():
+    if not _can_current_actor_act() or index < 0 or index >= skills.size():
         return ""
 
     var actor := current_actor
-    var skill: BattleSkill = actor.personal_skills[index]
+    var skill: BattleSkill = skills[index]
     var effective_sp_cost := _get_effective_sp_cost(skill, actor)
     if not actor.spend_sp(effective_sp_cost):
         return "Not enough SP."
