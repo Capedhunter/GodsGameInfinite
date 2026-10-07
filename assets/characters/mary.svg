@@ -1,17 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="180" height="260" viewBox="0 0 180 260">
-<rect width="180" height="260" fill="none"/>
-<!-- Mary: white/gold divine healer -->
-<path d="M90 34 C66 34 52 51 52 75 C52 98 67 111 90 111 C113 111 128 98 128 75 C128 51 114 34 90 34Z" fill="#f4efe2" stroke="#d7bd72" stroke-width="3"/>
-<path d="M52 70 C51 42 67 20 91 21 C116 22 132 43 128 70 C115 56 103 51 89 52 C75 52 64 59 52 70Z" fill="#efe7d7" stroke="#c8aa5c" stroke-width="3"/>
-<path d="M68 77 Q78 69 86 77 M94 77 Q102 69 112 77" fill="none" stroke="#514b43" stroke-width="3"/>
-<circle cx="77" cy="80" r="2.5" fill="#7c6430"/><circle cx="103" cy="80" r="2.5" fill="#7c6430"/>
-<path d="M82 94 Q90 99 98 94" fill="none" stroke="#9a6f55" stroke-width="2"/>
-<path d="M90 8 L94 22 L109 26 L94 30 L90 45 L86 30 L71 26 L86 22Z" fill="#f2cf72"/>
-<path d="M52 111 L25 235 Q90 257 155 235 L128 111 Q110 126 90 126 Q70 126 52 111Z" fill="#f7f4ec" stroke="#cbb873" stroke-width="3"/>
-<path d="M25 235 Q90 218 155 235" fill="none" stroke="#d7bd72" stroke-width="5"/>
-<path d="M67 120 L90 148 L113 120 L108 206 L90 226 L72 206Z" fill="#fffdf7" stroke="#d7bd72" stroke-width="3"/>
-<path d="M79 150 H101 M90 139 V162" stroke="#d4ad48" stroke-width="5"/>
-<path d="M43 142 L27 184 M137 142 L153 184" stroke="#f4efe2" stroke-width="18" stroke-linecap="round"/>
-<circle cx="25" cy="187" r="9" fill="#f2cf72"/>
-<circle cx="155" cy="187" r="9" fill="#f2cf72"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="260" viewBox="0 0 180 260"><defs>
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3d2bc"/><stop offset="1" stop-color="#c99179"/></linearGradient>
+    <linearGradient id="coat" x1="0" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#252833"/><stop offset="1" stop-color="#0c0d12"/></linearGradient>
+    <linearGradient id="white" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffdf7"/><stop offset="1" stop-color="#d9e0eb"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#332044"/><stop offset="1" stop-color="#100d19"/></linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a1b24"/><stop offset="1" stop-color="#111116"/></linearGradient>
+  </defs>
+  <rect width="180" height="260" fill="none"/>
+  <ellipse cx="90" cy="76" rx="38" ry="46" fill="url(#skin)" stroke="#a87865" stroke-width="2.5"/>
+  <path d="M51 70Q50 32 87 18Q120 18 130 52L125 82L113 55Q91 45 67 58L55 78Z" fill="#e6d7b9" stroke="#b99859" stroke-width="2"/>
+  <path d="M60 43Q77 21 94 25Q112 27 123 42" fill="none" stroke="#fff6df" stroke-width="8"/>
+  <path d="M67 77Q77 69 85 77M95 77Q103 69 113 77" fill="none" stroke="#55505a" stroke-width="3"/>
+  <circle cx="77" cy="80" r="2.8" fill="#4e82b9"/><circle cx="103" cy="80" r="2.8" fill="#4e82b9"/>
+  <path d="M80 96Q90 101 100 96" fill="none" stroke="#9d6c62" stroke-width="2.5"/>
+  <path d="M90 8L94 22L108 26L94 30L90 44L86 30L72 26L86 22Z" fill="#f0c85e"/>
+  <path d="M52 112L25 239Q90 258 155 239L128 112Q110 126 90 126Q70 126 52 112Z" fill="url(#white)" stroke="#c6a653" stroke-width="3"/>
+  <path d="M66 118L90 150L114 118L108 208L90 229L72 208Z" fill="#f9f7f1" stroke="#d4b75f" stroke-width="2"/>
+  <path d="M90 138V164M77 151H103" stroke="#d2a93f" stroke-width="4"/>
+  <path d="M42 137L26 187M138 137L154 187" stroke="#f2eee5" stroke-width="19" stroke-linecap="round"/>
+  <circle cx="25" cy="189" r="8" fill="#f0c85e"/><circle cx="155" cy="189" r="8" fill="#f0c85e"/>
+  <path d="M39 235Q90 216 141 235" fill="none" stroke="#d3b55e" stroke-width="4"/>
+  </svg>
